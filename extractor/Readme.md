@@ -1,10 +1,25 @@
-#### 장학금 정보 글에서 핵심 정보를 추출 스크립트
-##### How to run
+# Extractor
+장학금 게시글에서 장학금 정보를 추출하는 Celery Task Worker 입니다.
+### System Environment
+##### AWS
+해당 이미지는 AWS SQS를 이용하기 때문에 AWS 권한이 필요합니다.
+* AWS Infra 사용시 IAM Role을 이용해서 SQS 권한 부여 후 환경변수로 AWS 키 설정
+    * `AWS_ACCESS_KEY_ID`
+    * `AWS_SECRET_ACCESS_KEY`
+##### OpenAI
+해당 이미지는 GPT-3.5 API를 이용하기 때문에 OpenAI API 권한이 필요합니다.
+* `OPENAI_API_KEY` OpenAI API Key
+##### Queue Name
+* `QUEUE_NAME` 이벤트를 받아 올 Queue 이름
+### How to install
 ``` bash
-python ./extractor.py\n
-장학금 정보 글(개행문자 없어야 함)
+pip install -r requirements.txt
 ```
-##### Return
+### How to run
+``` bash
+celery -A tasks worker --concurrency=1 --loglevel=INFO
+```
+### Return
 ``` json
 {
 "신청기간": "2023년 7월 5일(수) ~ 7월 21일(금) 17시 까지",
