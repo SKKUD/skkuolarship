@@ -64,7 +64,7 @@ summary_schema = {
 
 
 @app.task(name='tasks.extract')
-def extract(script):
+def extract(url, writer, title, body):
     openai.api_key = OPENAI_API_KEY
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -78,7 +78,7 @@ def extract(script):
               5. '지원대상(혹은 신청자격)': 장학금에 신청하기 위한 대상과 자격
               6. '문의': 장학금과 관련해 문의할 내용의 연락처 혹은 홈페이지 주소 """
              },
-            {"role": "user", "content": f"user-given texts: {script}"},
+            {"role": "user", "content": f"user-given texts: {body}"},
         ],
         functions=[{
             "name": "extractor",
