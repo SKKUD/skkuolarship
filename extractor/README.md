@@ -11,6 +11,7 @@
 * `OPENAI_API_KEY` OpenAI API Key
 ##### Queue Name
 * `QUEUE_NAME` 이벤트를 받아 올 Queue 이름
+* `QUEUE_URL` 이벤트를 받아 올 Queue URL
 ### How to install
 ``` bash
 pip install -r requirements.txt
