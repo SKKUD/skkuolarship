@@ -1,8 +1,14 @@
+import json
 import os
+from datetime import datetime
 
 import openai
+from celery.utils.log import get_task_logger
 
 from celeryconfig import app
+from models import db, Scholarship, Tag
+
+logger = get_task_logger(__name__)
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
@@ -90,5 +96,17 @@ def extract(url, writer, title, body):
             "name": "extractor"
         }
     )
-
-    return response["choices"][0]["message"]["function_call"]["arguments"]
+    res = json.loads(response["choices"][0]["message"]["function_call"]["arguments"])
+    apply_start_at = res['신청기간']
+    apply_end_at = res['신청기간']
+    num_selection = res['선발인원']
+    benefit = res['장학혜택']
+    apply_method = json.dumps(res['접수방법'], ensure_ascii=False)
+    target = json.dumps(res['지원대상'], ensure_ascii=False)
+    contact = res['문의']
+    scholarship = Scholarship(title=title, department=writer, origin_url=url,
+                              apply_start_at=apply_start_at, apply_end_at=apply_end_at,
+                              num_selection=num_selection, benefit=benefit, apply_method=apply_method,
+                              target=target, contact=contact)
+    db.add(scholarship)
+    db.commit()
