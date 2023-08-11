@@ -1,6 +1,6 @@
 from utils import enqueue_extract_task
-from database import db
-from models import CrawlUrl
+from models import db
+from models import CrawlUrl, Scholarship
 import crawler
 
 
@@ -14,8 +14,22 @@ def crawl(url):
     result = crawler_instance.crawl()
 
     for data in result:
-        enqueue_extract_task(**data)
+        extract(**data)
 
+    return True
+
+
+def extract(url=None, **kwargs):
+    if not url:
+        print('No url found.')
+        return False
+
+    existing_data = db.query(Scholarship).filter(Scholarship.origin_url == url).first()
+    if existing_data:
+        print('Already crawled url: {}'.format(url))
+        return False
+
+    enqueue_extract_task(url=url, **kwargs)
     return True
 
 

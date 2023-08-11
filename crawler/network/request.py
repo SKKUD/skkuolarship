@@ -1,12 +1,9 @@
 from logging import getLogger
 
 import requests
-import os
 from requests.exceptions import *
 
 from network.session import SessionInfo
-
-os.environ.setdefault("OAUTHLIB_INSECURE_TRANSPORT", "1")
 
 USER_AGENT_LIST = {
     "DEFAULT_USER_AGENT": "Mozilla/5.0` (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36",
