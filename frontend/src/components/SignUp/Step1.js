@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button, Box } from '@mui/material';
-import CustomTextField from '../CustomTextField';
+import CustomTextField from '../CustomMUI/CustomTextField';
 // import Popup from '../Popup';
 
 const Step1 = ({ onNext }) => {

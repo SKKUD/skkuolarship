@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchResultList from './SearchResultList';
 import noResult from '../../images/noResult.png';
 import Hangul from 'hangul-js';
-import CustomInputBase from '../CustomInputBase';
+import CustomInputBase from '../CustomMUI/CustomInputBase';
 
 const CustomNotices = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -156,7 +156,7 @@ const CustomNotices = () => {
     
     const updatedData = sortedData.map((data) => {
         const endDate = new Date(data.dateEnd);
-        const daysLeft = Math.floor((endDate - today) / (1000 * 60 * 60 * 24)); // 마감일까지 남은 일 수 계산
+        const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
 
         let status;
         if (daysLeft < 0) {

@@ -129,7 +129,7 @@ const AllNotices = () => {
 
     const updatedData = sortedData.map((data) => {
         const endDate = new Date(data.dateEnd);
-        const daysLeft = Math.floor((endDate - today) / (1000 * 60 * 60 * 24)); // 마감일까지 남은 일 수 계산
+        const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
         let status;
         if (daysLeft < 0) {
             status = "모집 완료";

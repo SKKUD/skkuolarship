@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchResultList from './SearchResultList';
 import noResult from '../../images/noResult.png';
 import Hangul from 'hangul-js';
-import CustomInputBase from '../CustomInputBase';
+import CustomInputBase from '../CustomMUI/CustomInputBase';
 
 const FavNotices = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -86,7 +86,7 @@ const FavNotices = () => {
     
     const updatedData = sortedData.map((data) => {
         const endDate = new Date(data.dateEnd);
-        const daysLeft = Math.floor((endDate - today) / (1000 * 60 * 60 * 24)); 
+        const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)); 
 
         let status;
         if (daysLeft < 0) {

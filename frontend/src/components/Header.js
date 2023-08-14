@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import Sidebar from './Sidebar';
 
 const Header = () => {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const handleSidebarOpen = () => {
+        setIsSidebarOpen(true);
+    };
+
+    const handleSidebarClose = () => {
+        setIsSidebarOpen(false);
+    };
 
     return (
         <>
@@ -18,17 +27,18 @@ const Header = () => {
                     장학 캘린더
                 </Button>
                 {isLogin ? (
-                <IconButton color="inherit" >
-                    <PersonIcon component={Link} to="/myPage"/>
-                    </IconButton>
+                    <Button color="inherit" onClick={handleSidebarOpen} sx={{fontWeight: 900}} >
+                        마이페이지
+                    </Button>
                 ) : (
                     <Button color="inherit" component={Link} to="/login" sx={{fontWeight: 900}}>
-                        Login
+                        로그인
                     </Button>
                 )}
             </div>
             </Toolbar>
         </AppBar>
+        <Sidebar isOpen={isSidebarOpen} onClose={handleSidebarClose} isLogin={isLogin} />
         </>
     );
 };

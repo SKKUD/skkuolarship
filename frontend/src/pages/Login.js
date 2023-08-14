@@ -1,12 +1,11 @@
 import React from 'react';
 import { Button, Container, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
-import CustomTextField from '../components/CustomTextField';
+import CustomTextField from '../components/CustomMUI/CustomTextField';
 
 const Login = () => {
     const handleLogin = () => {
         // 로그인 처리 로직
-        
     };
 
     return (

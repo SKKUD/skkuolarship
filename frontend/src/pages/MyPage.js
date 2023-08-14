@@ -5,7 +5,7 @@ import AllNotices from '../components/Notices/AllNotices';
 import CustomNotices from '../components/Notices/CustomNotices';
 import FavNotices from '../components/Notices/FavNotices';
 
-const Home = () => {
+const MyPage = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <div style={{ width: '100vw',  backgroundColor: 'green', overflowX: 'hidden' }}>
+      <div style={{ width: '100vw',  backgroundColor: 'green' }}>
         <Container sx={{m: '0 86px'}}>
           <Tabs
             value={activeTab}
@@ -45,4 +45,4 @@ const tabStyle = (isActive) => ({
   padding: '18px 10px',
 });
 
-export default Home;
+export default MyPage;

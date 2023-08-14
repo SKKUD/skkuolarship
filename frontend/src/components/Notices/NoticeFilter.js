@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Select, MenuItem, FormControl } from "@mui/material";
-import CustomInputBase from '../CustomInputBase';
+import CustomInputBase from '../CustomMUI/CustomInputBase';
 
 const NoticeFilter = ({ sortType, handleSortChange, filteredDataLength }) => {
   return (
