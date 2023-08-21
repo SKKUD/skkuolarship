@@ -9,6 +9,8 @@
 ##### Queue Name
 * `QUEUE_NAME` 이벤트를 받아 올 Queue 이름
 * `QUEUE_URL` 이벤트를 받아 올 Queue URL
+##### Database
+* `DATABASE_URL` 데이터베이스 URL
 ### How to install
 ``` bash
 pip install -r requirements.txt
