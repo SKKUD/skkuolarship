@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from typing import List
 
-from sqlalchemy import create_engine, Integer, String, Table, ForeignKey
+from sqlalchemy import create_engine, Integer, String, Table, ForeignKey, DateTime
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, Mapped, mapped_column
@@ -37,15 +37,8 @@ class Scholarship(Base):
     title = Column(String, nullable=False)
     department = Column(String, nullable=False)
     view_count = Column(Integer, nullable=False, default=0)
-    # apply_start_at = Column(String, nullable=False)
-    # apply_end_at = Column(String, nullable=False)
-    # num_selection = Column(String, nullable=False)
-    # benefit = Column(String, nullable=False)
-    # apply_method = Column(String, nullable=False)
-    # target = Column(String, nullable=False)
-    # contact = Column(String, nullable=False)
-    apply_start_at = Column(String, nullable=True)
-    apply_end_at = Column(String, nullable=True)
+    apply_start_at = Column(DateTime, nullable=True)
+    apply_end_at = Column(DateTime, nullable=True)
     num_selection = Column(String, nullable=True)
     benefit = Column(String, nullable=True)
     apply_method = Column(String, nullable=True)
