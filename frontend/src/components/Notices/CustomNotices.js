@@ -1,14 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography, Paper, InputBase, IconButton, Container, Select, MenuItem, FormControl } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import SearchResultList from './SearchResultList';
 import noResult from '../../images/noResult.png';
 import Hangul from 'hangul-js';
 import CustomInputBase from '../CustomMUI/CustomInputBase';
+import formatDate from '../../utils/formatDate';
 
 const CustomNotices = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortType, setSortType] = useState('id');
+    const [notices, setNotices] = useState([]); 
+
+    useEffect(() => {
+        fetch('/all') 
+            .then(response => response.json())
+            .then(data => setNotices(data))
+            .catch(error => console.error('데이터 불러오기 오류:', error));
+    }, []); 
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -18,136 +27,27 @@ const CustomNotices = () => {
         setSortType(event.target.value);
     };
 
-    const dummyData = [
-        {
-            id: 1,
-            depart: '국제교류부',
-            title: '2023년도 국제교류 장학생 선발 공고',
-            keywords: ['국제교류', '교환학생'],
-            dateEnd: '2023-08-01',
-            views: 123,
-            stuNum: 1,
-            benefit: '학기당 100만원',
-            method: {
-                submitTo: '이메일 접수 skkujanghak@skku.edu',
-                submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-                submitDate: '2023-09-09',
-            },
-            target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-            inquiry: '학생지원팀 02-760-1167',
-            link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-        },
-        {
-            id: 2,
-            depart: '학생복지부',
-            title: '2023년도 학생복지 장학생 선발 공고',
-            keywords: ['학생복지', '직전학기 3.5 이상'],
-            dateEnd: '2023-08-12',
-            views: 234,
-            stuNum: 1,
-            benefit: '학기당 100만원',
-            method: {
-                submitTo: '이메일 접수 skkujanghak@skku.edu',
-                submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-                submitDate: '2023-09-09',
-            },
-            target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-            inquiry: '학생지원팀 02-760-1167',
-            link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-        },
-        {
-            id: 3,
-            depart: '취업지원부',
-            title: '2023년도 취업지원 장학생 선발 공고',
-            keywords: ['취업', '4학년', '졸업'],
-            dateEnd: '2023-08-11',
-            views: 345,
-            stuNum: 1,
-            benefit: '학기당 100만원',
-            method: {
-                submitTo: '이메일 접수 skkujanghak@skku.edu',
-                submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-                submitDate: '2023-09-09',
-            },
-            target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-            inquiry: '학생지원팀 02-760-1167',
-            link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-        },
-        {
-            id: 4,
-            depart: '국제교류부',
-            title: '2023년도 국제교류 장학생 선발 공고',
-            dateEnd: '2023-08-09',
-            views: 123,
-            stuNum: 1,
-            benefit: '학기당 100만원',
-            method: {
-                submitTo: '이메일 접수 skkujanghak@skku.edu',
-                submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-                submitDate: '2023-09-09',
-            },
-            target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-            inquiry: '학생지원팀 02-760-1167',
-            link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-
-        },
-        {
-            id: 5,
-            depart: '학생복지부',
-            title: '2023년도 학생복지 장학생 선발 공고',
-            dateEnd: '2023-08-10',
-            views: 234,
-            stuNum: 1,
-            benefit: '학기당 100만원',
-            method: {
-                submitTo: '이메일 접수 skkujanghak@skku.edu',
-                submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-                submitDate: '2023-09-09',
-            },
-            target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-            inquiry: '학생지원팀 02-760-1167',
-            link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-        },
-        {
-            id: 6,
-            depart: '취업지원부',
-            title: '2023년도 취업지원 장학생 선발 공고',
-            dateEnd: '2023-08-31',
-            views: 345,
-            stuNum: 1,
-            benefit: '학기당 100만원',
-            method: {
-                submitTo: '이메일 접수 skkujanghak@skku.edu',
-                submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-                submitDate: '2023-09-09',
-            },
-            target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-            inquiry: '학생지원팀 02-760-1167',
-            link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-        }
-    ];
-
     const searchChosung = (text) => {
         return Hangul.disassemble(text).filter((char) => Hangul.isCho(char)).join('');
     };
     
-    const filteredData = dummyData.filter((data) => {
+    const filteredData = notices.filter((data) => {
         return (
-          searchChosung(data.depart).includes(searchChosung(searchTerm)) ||
+            data.applyEndAt !== null &&
+          (searchChosung(data.department).includes(searchChosung(searchTerm)) ||
           searchChosung(data.title).includes(searchChosung(searchTerm)) ||
-          (data.keywords && data.keywords.some((keyword) => searchChosung(keyword).includes(searchChosung(searchTerm))))
+          (data.keywords && data.keywords.some((keyword) => searchChosung(keyword).includes(searchChosung(searchTerm)))))
         );
     });
 
     const sortedData = [...filteredData].sort((a, b) => {
         if (sortType === 'id') {
           return b.id - a.id;
-        } else if (sortType === 'dateEnd') {
-          return new Date(a.dateEnd) - new Date(b.dateEnd);
-        } else if (sortType === 'views') {
-          return b.views - a.views;
+        } else if (sortType === 'applyEndAt') {
+          return new Date(a.applyEndAt) - new Date(b.applyEndAt);
+        } else if (sortType === 'viewCount') {
+          return b.viewCount - a.viewCount;
         }
-
         return 0;
     });
 
@@ -155,7 +55,7 @@ const CustomNotices = () => {
     const today = new Date();
     
     const updatedData = sortedData.map((data) => {
-        const endDate = new Date(data.dateEnd);
+        const endDate = new Date(data.applyEndAt);
         const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
 
         let status;
@@ -171,6 +71,7 @@ const CustomNotices = () => {
             ...data,
             daysLeft,
             status,
+            applyEndAt: formatDate(data.applyEndAt),
         };
     });
 
@@ -204,8 +105,8 @@ const CustomNotices = () => {
                     sx={{fontSize: '14px'}}
                 >
                     <MenuItem value="id" sx={{fontSize: '14px'}} >최신순</MenuItem>
-                    <MenuItem value="dateEnd" sx={{fontSize: '14px'}}>마감일순</MenuItem>
-                    <MenuItem value="views" sx={{fontSize: '14px'}}>조회순</MenuItem>
+                    <MenuItem value="applyEndAt" sx={{fontSize: '14px'}}>마감일순</MenuItem>
+                    <MenuItem value="viewCount" sx={{fontSize: '14px'}}>조회순</MenuItem>
                 </Select>
             </FormControl>
         </div>

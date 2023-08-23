@@ -5,6 +5,7 @@ import SearchResultList from './SearchResultList';
 import noResult from '../../images/noResult.png';
 import Hangul from 'hangul-js';
 import CustomInputBase from '../CustomMUI/CustomInputBase';
+import formatDate from '../../utils/formatDate';
 
 const FavNotices = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,11 +22,11 @@ const FavNotices = () => {
     const dummyData = [
         {
         id: 1,
-        depart: '국제교류부',
+        department: '국제교류부',
         title: '2023년도 국제교류 장학생 선발 공고',
         keywords: ['교내', '국제교류', '교환학생'],
-        dateEnd: '2023-09-09',
-        views: 999,
+        applyEndAt: '2023-09-09',
+        viewCount: 999,
 
         stuNum: 1,
         benefit: '학기당 100만원',
@@ -40,11 +41,11 @@ const FavNotices = () => {
         },
         {
         id: 2,
-        depart: '학생복지부',
+        department: '학생복지부',
         title: '2023년도 학생복지 장학생 선발 공고',
         keywords: ['교내', '학생복지', '직전학기 3.5 이상'],
-        dateEnd: '2023-08-15',
-        views: 234,
+        applyEndAt: '2023-08-15',
+        viewCount: 234,
         stuNum: 1,
         benefit: '학기당 100만원',
         method: {
@@ -64,19 +65,20 @@ const FavNotices = () => {
     
     const filteredData = dummyData.filter((data) => {
         return (
-          searchChosung(data.depart).includes(searchChosung(searchTerm)) ||
+            data.applyEndAt !== null && (
+          searchChosung(data.department).includes(searchChosung(searchTerm)) ||
           searchChosung(data.title).includes(searchChosung(searchTerm)) ||
           (data.keywords && data.keywords.some((keyword) => searchChosung(keyword).includes(searchChosung(searchTerm))))
-        );
+        ));
     });
 
     const sortedData = [...filteredData].sort((a, b) => {
         if (sortType === 'id') {
           return b.id - a.id;
-        } else if (sortType === 'dateEnd') {
-          return new Date(a.dateEnd) - new Date(b.dateEnd);
-        } else if (sortType === 'views') {
-          return b.views - a.views;
+        } else if (sortType === 'applyEndAt') {
+          return new Date(a.applyEndAt) - new Date(b.applyEndAt);
+        } else if (sortType === 'viewCount') {
+          return b.viewCount - a.viewCount;
         }
 
         return 0;
@@ -85,7 +87,7 @@ const FavNotices = () => {
     const today = new Date();
     
     const updatedData = sortedData.map((data) => {
-        const endDate = new Date(data.dateEnd);
+        const endDate = new Date(data.applyEndAt);
         const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)); 
 
         let status;
@@ -101,6 +103,7 @@ const FavNotices = () => {
             ...data,
             daysLeft,
             status,
+            applyEndAt: formatDate(data.applyEndAt),
         };
     });
 
@@ -134,8 +137,8 @@ const FavNotices = () => {
                     sx={{fontSize: '14px'}}
                 >
                     <MenuItem value="id" sx={{fontSize: '14px'}} >최신순</MenuItem>
-                    <MenuItem value="dateEnd" sx={{fontSize: '14px'}}>마감일순</MenuItem>
-                    <MenuItem value="views" sx={{fontSize: '14px'}}>조회순</MenuItem>
+                    <MenuItem value="applyEndAt" sx={{fontSize: '14px'}}>마감일순</MenuItem>
+                    <MenuItem value="viewCount" sx={{fontSize: '14px'}}>조회순</MenuItem>
                 </Select>
             </FormControl>
         </div>
