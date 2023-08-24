@@ -52,7 +52,7 @@ public class SecurityConfig {
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final UserService userService;
-    private static String secretKey = "my-secret-key-123123";
+    static String secretKey = "my-secret-key-123123";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -60,7 +60,8 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests()
-                .requestMatchers("/home").authenticated()
+                .requestMatchers("/all/**").authenticated()
+                .requestMatchers("/recommendation/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -70,5 +71,3 @@ public class SecurityConfig {
     /*.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
     UsernamePasswordAuthenticationFilter.class); // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다*/
 }
-
-

@@ -21,4 +21,5 @@ public class ScholarshipRepo {
     public Optional<Object> findById(Long id) {
         return Optional.ofNullable(em.find(Scholarship.class, id));
     }
+
 }

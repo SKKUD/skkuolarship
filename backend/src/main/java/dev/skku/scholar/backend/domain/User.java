@@ -1,36 +1,15 @@
 package dev.skku.scholar.backend.domain;
-import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import lombok.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
 @NoArgsConstructor
-public class User{
-    @Builder
-    public User(String username, String password, String email, ESex sex, LocalDateTime birth,
-                String major, Integer semester, EEnrollment enrollStatus,
-                Integer gpa, Integer lastSemGpa, Integer incomeBracket, String residence) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.sex = sex;
-        this.birth = birth;
-        this.major = major;
-        this.semester = semester;
-        this.enrollStatus = enrollStatus;
-        this.gpa = gpa;
-        this.lastSemGpa = lastSemGpa;
-        this.incomeBracket = incomeBracket;
-        this.residence = residence;
-    }
-
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,15 +32,30 @@ public class User{
     private LocalDateTime birth;
 
     private String major;
-
     private Integer semester;
     private Integer incomeBracket;
-    private Integer gpa;
-    private Integer lastSemGpa;
+    private Float gpa;
+    private Float lastSemGpa;
     private String residence;
 
     @Enumerated(EnumType.STRING)
     private EEnrollment enrollStatus;
 
-
+    @Builder
+    public User(String username, String password, String email, ESex sex, LocalDateTime birth,
+                String major, Integer semester, EEnrollment enrollStatus,
+                Float gpa, Float lastSemGpa, Integer incomeBracket, String residence) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.sex = sex;
+        this.birth = birth;
+        this.major = major;
+        this.semester = semester;
+        this.enrollStatus = enrollStatus;
+        this.gpa = gpa;
+        this.lastSemGpa = lastSemGpa;
+        this.incomeBracket = incomeBracket;
+        this.residence = residence;
+    }
 }

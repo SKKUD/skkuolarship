@@ -50,8 +50,8 @@ public class JoinRequest {
                 .major(this.major)
                 .semester(this.semester)
                 .enrollStatus(this.enrollStatus)
-                .gpa(this.gpa)
-                .lastSemGpa(this.lastSemGpa)
+                .gpa(Float.valueOf(this.gpa))
+                .lastSemGpa(Float.valueOf(this.lastSemGpa))
                 .incomeBracket(this.incomeBracket)
                 .residence(this.residence)
                 .build();

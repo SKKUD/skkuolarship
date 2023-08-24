@@ -1,6 +1,9 @@
 package dev.skku.scholar.backend.controller;
 import dev.skku.scholar.backend.Service.ScholarshipService;
+import dev.skku.scholar.backend.Service.UserService;
 import dev.skku.scholar.backend.domain.Scholarship;
+import dev.skku.scholar.backend.domain.ScholarshipTag;
+import dev.skku.scholar.backend.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,8 @@ import java.util.List;
 @Slf4j
 public class ScholarshipController {
     private final ScholarshipService scholarshipService;
+    private final UserService userService;
+    private final TagRepository scholarshipTagRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<Scholarship>> AllList() {
@@ -27,5 +32,4 @@ public class ScholarshipController {
 
         return ResponseEntity.ok(scholarship);
     }
-
 }

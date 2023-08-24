@@ -37,8 +37,8 @@ public class JwtUserController {
                 .major(joinRequest.getMajor())
                 .semester(joinRequest.getSemester())
                 .incomeBracket(joinRequest.getIncomeBracket())
-                .gpa(joinRequest.getGpa())
-                .lastSemGpa(joinRequest.getLastSemGpa())
+                .gpa(Float.valueOf(joinRequest.getGpa()))
+                .lastSemGpa(Float.valueOf(joinRequest.getLastSemGpa()))
                 .residence(joinRequest.getResidence())
                 .enrollStatus(joinRequest.getEnrollStatus())
                 .build();
