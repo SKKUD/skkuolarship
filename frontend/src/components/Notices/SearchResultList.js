@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Chip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import transformDepart from '../../utils/transformDepart';
 
 const SearchResultList = ({ data, onNoticeClick }) => {
   return (
@@ -21,10 +22,9 @@ const SearchResultList = ({ data, onNoticeClick }) => {
               key={row.id}
               onClick={() => onNoticeClick(row)}
               >
-              <TableCell>{row.depart}</TableCell>
+              <TableCell>{transformDepart(row.department)}</TableCell>
               <TableCell>
                 {row.title}
-                {/* <Link to={`/notice/${row.id}`}>{row.title}</Link> */}
                 <div>
                   {row.keywords &&
                     row.keywords.map((keyword, index) => (
@@ -37,7 +37,7 @@ const SearchResultList = ({ data, onNoticeClick }) => {
                 </div>
               </TableCell>
               <TableCell>
-                {row.dateEnd}
+                {row.applyEndAt}
                 <br />
                 {row.daysLeft !== undefined ? (
                   row.daysLeft >= 0 ? (
@@ -58,7 +58,7 @@ const SearchResultList = ({ data, onNoticeClick }) => {
                   )
                 ) : null}
               </TableCell>
-              <TableCell>{row.views}</TableCell>
+              <TableCell>{row.viewCount}</TableCell>
               <TableCell>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />

@@ -1,13 +1,50 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, Container, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import CustomTextField from '../components/CustomMUI/CustomTextField';
 
 const Login = () => {
-    const handleLogin = () => {
-        // 로그인 처리 로직
-    };
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
+    const handleLogin = async () => {
+        try {
+            console.log('로그인 시도');
+            console.log('username:', username);
+            console.log('password:', password);
+
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password, 
+                }),
+            });
+    
+            const text = await response.text();
+            console.log('응답결과',text);
+
+            if (response.ok) {
+                const data = await response.json(); 
+                console.log('로그인 응답 데이터:', data)
+                if (data.token) {
+                    console.log('로그인 성공');
+                    console.log('토큰:', data.token);
+                } else {
+                    console.log('로그인 성공 (토큰 없음)');
+                }
+            } else {
+                console.log('로그인 실패');
+            }
+        } catch (error) {
+            console.error('로그인 오류:', error);
+        }
+    };
+    
+    
     return (
         <Container maxWidth="sm" sx={{ mt: 10, p: 10, width: '45%' }}>
             <Typography variant="h4" align="center" >
@@ -19,12 +56,14 @@ const Login = () => {
                 placeholder="아이디"
                 required
                 sx={{ mb: 3, mt: 3}}
+                onChange={(e) => setUsername(e.target.value)}
             />
             <CustomTextField
                 type="password"
                 placeholder="비밀번호"
                 required
                 sx={{ mb: 3}}
+                onChange={(e) => setPassword(e.target.value)}
             />
             <Button
                 variant="contained"
