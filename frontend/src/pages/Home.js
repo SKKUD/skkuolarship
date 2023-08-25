@@ -29,7 +29,7 @@ const Home = () => {
           </Tabs>
         </Container>
       </div>
-      <div style={{ padding: '30px 120px 50px' }}>
+      <div style={{ padding: '30px 120px 50px', backgroundColor: '#F9F9F9' }}>
         {activeTab === 0 && <AllNotices />}
         {activeTab === 1 && <CustomNotices />}
         {activeTab === 2 && <FavNotices />}

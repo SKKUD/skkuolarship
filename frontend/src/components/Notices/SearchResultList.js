@@ -20,7 +20,7 @@ const SearchResultList = ({ data, onNoticeClick }) => {
           {data.map((row) => (
             <TableRow 
               key={row.id}
-              onClick={() => onNoticeClick(row)}
+              onClick={()=>onNoticeClick(row)}
               >
               <TableCell>{transformDepart(row.department)}</TableCell>
               <TableCell>

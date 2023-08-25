@@ -48,10 +48,10 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
     };
 
     return (
-        <Dialog open={open} onClose={onClose} >
-            <List sx={{ width: '330px', p: 2, background: 'green'}}>
-                <div style={{backgroundColor: '#fff'}}>
-                <Typography variant="h6" sx={{fontWeight: 800, textAlign: 'center', p: 2}}>진아지롱 님</Typography>
+        <Dialog open={open} onClose={onClose}>
+            <List sx={{ width: '330px', p: 2 }}>
+                <div>
+                <Typography variant="h6" sx={{fontWeight: 800, textAlign: 'center', p: 2}}>👻 <br/> 진아지롱 님</Typography>
                 {editMode ? (
                     <Container>
                         <ListItem >

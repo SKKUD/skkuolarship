@@ -132,7 +132,7 @@ const AllNotices = () => {
                         key={index}
                         onClick={() => handleTagClick(tag)}
                         sx={{
-                            backgroundColor: selectedTags.includes(tag) ? '#9DC08B' : '#EDF1D6',
+                            backgroundColor: selectedTags.includes(tag) ? '#7DB249' : '#EDF0C7',
                             borderRadius: '20px',
                             m: '5px',
                             p: '5px 12px',
