@@ -6,10 +6,12 @@ import noResult from '../../images/noResult.png';
 import Hangul from 'hangul-js';
 import CustomInputBase from '../CustomMUI/CustomInputBase';
 import formatDate from '../../utils/formatDate';
+import NoticeDetail from './NoticeDetail';
 
 const FavNotices = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortType, setSortType] = useState('id');
+    const [selectedNotice, setSelectedNotice] = useState(null);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -19,6 +21,14 @@ const FavNotices = () => {
         setSortType(event.target.value);
     };
 
+    const handleNoticeClick = (notice) => {
+        if(selectedNotice !== null) {
+            setSelectedNotice(null);
+        } else {
+            setSelectedNotice(notice);
+        }
+    };
+    
     const dummyData = [
         {
         id: 1,
@@ -142,14 +152,18 @@ const FavNotices = () => {
                 </Select>
             </FormControl>
         </div>
-        {
-            updatedData.length === 0 ? 
-            <Container sx={{textAlign: 'center'}}>
-                <img src={noResult} alt="noResult" width={256} />
-                <Typography variant="body1" sx={{ fontWeight: 700, margin: '24px 0px'}}>검색 결과가 없습니다. <br/> 다른 검색어를 입력해주세요!</Typography> 
-            </Container>
-            :<SearchResultList data={updatedData} />
-        }
+        { selectedNotice !== null ? (
+            <NoticeDetail notice={selectedNotice} />
+            ) : (
+            updatedData.length === 0 ? (
+                <Container sx={{textAlign: 'center'}}>
+                    <img src={noResult} alt="noResult" width={256} />
+                    <Typography variant="body1" sx={{ fontWeight: 700, margin: '24px 0px'}}>검색 결과가 없습니다. <br/> 다른 검색어를 입력해주세요!</Typography> 
+                </Container>
+            ) : (
+                <SearchResultList data={updatedData} onNoticeClick={handleNoticeClick} />
+            )
+        )}
         </>
     );
 };
