@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import { Button, Container, Typography, Grid } from '@mui/material';
+import { Button, Container, Typography, Grid, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import CustomTextField from '../components/CustomMUI/CustomTextField';
 import { useNavigate } from 'react-router-dom';
+import logo from '../images/logo4.png';
+import character from '../images/character.png';
 
-const Login = () => {
+const Login = ({setIsLogin}) => {
 
     const navigate = useNavigate();
 
@@ -34,21 +36,12 @@ const Login = () => {
                 console.log('응답결과',text);
 
                 if(text === "로그인 아이디 또는 비밀번호가 틀렸습니다.") {
-                    alert(text);
-                    // navigate('/');
-
-                }
-                else{
+                    alert('로그인 실패');
+                    console.log('로그인 실패');
+                } else{
+                    setIsLogin(true);
                     navigate('/');
                 }
-                // const data = await response.json(); 
-                // console.log('로그인 응답 데이터:', data)
-                // if (data.token) {
-                //     console.log('로그인 성공');
-                //     console.log('토큰:', data.token);
-                // } else {
-                //     console.log('로그인 성공 (토큰 없음)');
-                // }
             } else {
                 console.log('로그인 실패');
             }
@@ -60,9 +53,10 @@ const Login = () => {
     
     return (
         <Container maxWidth="sm" sx={{ mt: 10, p: 10, width: '45%' }}>
-            <Typography variant="h4" align="center" >
-            LOGO
-            </Typography>
+            <Box sx={{pb: 2}}>
+                <img src={character} alt="Logo" style={{ width: '75px', height: 'auto' }} />
+                <img src={logo} alt="Logo" style={{ width: '220px', height: 'auto', marginLeft: '15px' }} />
+            </Box>
             <form>
             <CustomTextField
                 type="text"
