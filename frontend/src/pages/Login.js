@@ -2,8 +2,12 @@ import React, {useState} from 'react';
 import { Button, Container, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import CustomTextField from '../components/CustomMUI/CustomTextField';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -24,18 +28,27 @@ const Login = () => {
                 }),
             });
     
-            const text = await response.text();
-            console.log('응답결과',text);
 
             if (response.ok) {
-                const data = await response.json(); 
-                console.log('로그인 응답 데이터:', data)
-                if (data.token) {
-                    console.log('로그인 성공');
-                    console.log('토큰:', data.token);
-                } else {
-                    console.log('로그인 성공 (토큰 없음)');
+                const text = await response.text();
+                console.log('응답결과',text);
+
+                if(text === "로그인 아이디 또는 비밀번호가 틀렸습니다.") {
+                    alert(text);
+                    // navigate('/');
+
                 }
+                else{
+                    navigate('/');
+                }
+                // const data = await response.json(); 
+                // console.log('로그인 응답 데이터:', data)
+                // if (data.token) {
+                //     console.log('로그인 성공');
+                //     console.log('토큰:', data.token);
+                // } else {
+                //     console.log('로그인 성공 (토큰 없음)');
+                // }
             } else {
                 console.log('로그인 실패');
             }
