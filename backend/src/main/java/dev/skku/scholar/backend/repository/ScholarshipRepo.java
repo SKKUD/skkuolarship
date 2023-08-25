@@ -22,4 +22,9 @@ public class ScholarshipRepo {
         return Optional.ofNullable(em.find(Scholarship.class, id));
     }
 
+    public List<Scholarship> findByIdIn(List<Long> scholarshipIds) {
+        return em.createQuery("select s from Scholarship s where s.id in :ids", Scholarship.class)
+                .setParameter("ids", scholarshipIds)
+                .getResultList();
+    }
 }

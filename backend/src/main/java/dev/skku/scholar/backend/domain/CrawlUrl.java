@@ -1,7 +1,5 @@
 package dev.skku.scholar.backend.domain;
 
-
-
 import jakarta.persistence.*;
 
 @Entity
