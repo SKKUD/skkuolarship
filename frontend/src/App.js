@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Home from './pages/Home';
@@ -17,15 +18,19 @@ const theme = createTheme({
 });
 
 const App = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div style={{ height: '100%', width: '100vw'}}>
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/login" element={<Login/>} />
+            <Route
+              path="/"
+              element={<Home isLogin={isLogin} setIsLogin={setIsLogin} />} 
+            />
+            <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
             <Route path="/signUp" element={<SignUp/>} />
-            {/* <Route path="/myPage" element={<MyPage/>} /> */}
           </Routes>
         </div>
       </Router>

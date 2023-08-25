@@ -4,17 +4,22 @@ import Header from '../components/Header';
 import AllNotices from '../components/Notices/AllNotices';
 import CustomNotices from '../components/Notices/CustomNotices';
 import FavNotices from '../components/Notices/FavNotices';
+import { Navigate } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
+  if (!isLogin) {
+    return <Navigate to="/login" />;
+  }
+
   return (
     <div>
-      <Header />
+      <Header isLogin={isLogin}/>
       <div style={{ width: '100vw',  backgroundColor: 'green', overflowX: 'hidden' }}>
         <Container sx={{m: '0 86px'}}>
           <Tabs

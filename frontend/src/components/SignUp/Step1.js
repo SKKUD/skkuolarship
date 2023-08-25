@@ -84,9 +84,9 @@ const Step1 = ({ onNext }) => {
                 // onClick={handleSignUp}
                 onClick={onNext}
                 sx={{
-                  backgroundColor: isDisabled ? 'transparent' : 'green', 
+                  backgroundColor: isDisabled ? 'transparent' : '#FFD302', 
                   '&:hover': {
-                    backgroundColor: isDisabled ? 'transparent' : 'darkgreen', 
+                    backgroundColor: isDisabled ? 'transparent' : '#FFCD4A', 
                   },
                   color: isDisabled ? '#505050' : 'white', 
                   p: 1,

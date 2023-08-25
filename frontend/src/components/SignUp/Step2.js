@@ -30,11 +30,12 @@ const Step2 = ({ onNext }) => {
   
   const [gender, setGender] = useState('');
   const [birthDate, setBirthDate] = useState('');
+  const [email, setEmail] = useState('');
   const [major, setMajor] = useState('');
   const [semester, setSemester] = useState('');
   const [registrationStatus, setRegistrationStatus] = useState('');
 
-  const isDisabled  = gender === '' || birthDate === '' || major === '' || semester === '' || registrationStatus === '';
+  const isDisabled  = gender === '' || birthDate === '' || email === '' || major === '' || semester === '' || registrationStatus === '';
 
   const handleGenderChange = (e, newValue) => {
     setGender(newValue);
@@ -42,6 +43,10 @@ const Step2 = ({ onNext }) => {
 
   const handleBirthDateChange = (e) => {
     setBirthDate(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const handleMajorChange = (e, newValue) => {
@@ -81,6 +86,15 @@ const Step2 = ({ onNext }) => {
             value={birthDate}
             onChange={handleBirthDateChange}
             fullWidth 
+            sx={{ mb:3 }}
+        />
+        <TextField
+            type="text"
+            label="이메일"
+            placeholder="IamSungKyun@g.skku.edu"
+            value={email}
+            onChange={handleEmailChange}
+            fullWidth
             sx={{ mb:3 }}
         />
          <Autocomplete
@@ -131,15 +145,15 @@ const Step2 = ({ onNext }) => {
         </ToggleButtonGroup>
         <Box mt={2}>
           <Button variant="standard" fullWidth onClick={onNext}
-          sx={{
-            backgroundColor: isDisabled ? 'transparent' : 'green', 
-            '&:hover': {
-              backgroundColor: isDisabled ? 'transparent' : 'darkgreen', 
-            },
-            color: isDisabled ? '#505050' : 'white', 
-            p: 1,
-            fontSize: '16px',
-          }}
+                sx={{
+                  backgroundColor: isDisabled ? 'transparent' : '#FFD302', 
+                  '&:hover': {
+                    backgroundColor: isDisabled ? 'transparent' : '#FFCD4A', 
+                  },
+                  color: isDisabled ? '#505050' : 'white', 
+                  p: 1,
+                  fontSize: '16px',
+                }}
           >
             다음
           </Button>
