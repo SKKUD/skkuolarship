@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
-import { Button, Box } from '@mui/material';
+import { Button, Box, Modal, Typography } from '@mui/material';
 import CustomTextField from '../CustomMUI/CustomTextField';
-// import Popup from '../Popup';
 
 const Step1 = ({ onNext }) => {
     const [username, setUsername] = useState('');
@@ -10,9 +9,8 @@ const Step1 = ({ onNext }) => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
   
-    // const [isAlertOpen, setIsAlertOpen] = useState(false);
-    // const [alertMessage, setAlertMessage] = useState('');
-
+    const [modalOpen, setModalOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
     const isDisabled =  !isUsernameAvailable || password === '' || password !== passwordConfirm ;
 
     const handleUsernameChange = (e) => {
@@ -28,16 +26,21 @@ const Step1 = ({ onNext }) => {
     };
   
     const handleCheckUsername = () => {
-      if (username === 'example') {
+      if ( username === '') {
         setIsUsernameAvailable(false);
-        alert('이미 사용 중인 아이디입니다.');
-        // setIsAlertOpen(true);
-        // setAlertMessage('이미 사용 중인 아이디입니다.');
+        setModalOpen(true);
+        setAlertMessage('다른 아이디를 입력해주세요.');
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 1000);
       } else {
         setIsUsernameAvailable(true);
-        alert('사용 가능한 아이디입니다!');
-        // setIsAlertOpen(true);
-        // setAlertMessage('사용 가능한 아이디입니다!');
+        setAlertMessage('사용 가능한 아이디입니다.');
+        setModalOpen(true);
+
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 1000);
       }
     };
 
@@ -104,6 +107,11 @@ const Step1 = ({ onNext }) => {
                 다음
                 </Button>
             </Box>
+            <Modal open={modalOpen} onClose={() => setModalOpen(false)} >
+              <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', borderRadius: '5px', boxShadow: '0px 3px 6px rgba(0,0,0,0.3)' }}>
+                <Typography variant="h6">{alertMessage}</Typography>
+              </div>
+            </Modal>
         </form>
       </>
     );
