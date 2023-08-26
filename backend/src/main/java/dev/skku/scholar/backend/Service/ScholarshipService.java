@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ScholarshipService {
+
     private final ScholarshipRepository scholarshipRepository;
     private final ScholarshipTagRepository scholarshipTagRepository;
     private final TagRepository tagRepository;
@@ -31,7 +32,6 @@ public class ScholarshipService {
         this.scholarshipRepository = scholarshipRepository;
         this.scholarshipTagRepository = scholarshipTagRepository;
         this.tagRepository = tagRepository;
-    }
 
     public Map<Scholarship, List<String>> scholarshipWithKeywords(){
         Map<Scholarship, List<String>> scholarshipAndKeywords = new HashMap<>();

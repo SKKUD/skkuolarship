@@ -54,6 +54,7 @@ public class RecommendationService {
         recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnGpa(user.get()));
         recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnLastSemGpa(user.get()));
         recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnMajor(user.get()));
+        //recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnSemester(user.get()));
 
         return scholarshipRepository.findByIdIn(recommendedScholarshipIds);
     }
@@ -71,23 +72,51 @@ public class RecommendationService {
 
 
 
-    private List<Long> getScholarshipIdsForTagBasedOnGpa(User user) {
+    /*private List<Long> getScholarshipIdsForTagBasedOnGpa(User user) {
         Double gpa = Double.valueOf(user.getGpa());
         String tagName = "평점평균 " + Math.min(4, (int) Math.floor(gpa));
-        System.out.println(tagName);
         Tag tag = tagRepository.findByName(tagName);
         System.out.println(tag.getId());
         System.out.println(getScholarshipIdsForTag(tag.getId()));
 
         return tag != null ? getScholarshipIdsForTag(tag.getId()) : new ArrayList<>();
+    }*/
+    private List<Long> getScholarshipIdsForTagBasedOnGpa(User user) {
+        Double userGpa = Double.valueOf(user.getGpa());
+        int gpa = Math.min(4, (int) Math.floor(userGpa));
+
+        List<Long> scholarshipIds = new ArrayList<>();
+        for (int i = 2; i <= gpa; i++) {
+            String tagName = "평점평균 " + i;
+            Tag tag = tagRepository.findByName(tagName);
+            if (tag != null) {
+                scholarshipIds.addAll(getScholarshipIdsForTag(tag.getId()));
+            }
+        }
+        return scholarshipIds;
     }
 
-    private List<Long> getScholarshipIdsForTagBasedOnLastSemGpa(User user) {
+    /*private List<Long> getScholarshipIdsForTagBasedOnLastSemGpa(User user) {
         Double gpa = Double.valueOf(user.getLastSemGpa());
         String tagName = "직전학기 성적 " + Math.min(4, (int) Math.floor(gpa));
         Tag tag = tagRepository.findByName(tagName);
         System.out.println(tag);
         return tag != null ? getScholarshipIdsForTag(tag.getId()) : new ArrayList<>();
+    }*/
+    private List<Long> getScholarshipIdsForTagBasedOnLastSemGpa(User user) {
+        Double userGpa = Double.valueOf(user.getLastSemGpa());
+        int gpa = Math.min(4, (int) Math.floor(userGpa));
+
+        List<Long> scholarshipIds = new ArrayList<>();
+        for (int i = 2; i <= gpa; i++) {
+            String tagName = "직전학기 " + i;
+            Tag tag = tagRepository.findByName(tagName);
+            if (tag != null) {
+                scholarshipIds.addAll(getScholarshipIdsForTag(tag.getId()));
+            }
+        }
+
+        return scholarshipIds;
     }
 
     private List<Long> getScholarshipIdsForTagBasedOnMajor(User user) {
@@ -108,15 +137,15 @@ public class RecommendationService {
 //    }
 
     private List<Long> getScholarshipIdsForTag(Long tagId) {
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        //System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         List<Long> scholarshipIds = new ArrayList<>();
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        //System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         List<ScholarshipTag> scholarshipTags = scholarshipTagRepository.findByTagId(tagId);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         for (ScholarshipTag scholarshipTag : scholarshipTags) {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            //System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             System.out.println(scholarshipTag.getScholarship().getId());
-            System.out.println("#############################");
+           // System.out.println("#############################");
 
             scholarshipIds.add(scholarshipTag.getScholarship().getId());
         }
