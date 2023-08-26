@@ -4,6 +4,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import transformDepart from '../../utils/transformDepart';
 
 const SearchResultList = ({ data, onNoticeClick }) => {
+  const handleScrapClick = (noticeId) => {
+    alert(`게시글 ID: ${noticeId} 가 스크랩되었습니다.`);
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table >
@@ -19,10 +23,9 @@ const SearchResultList = ({ data, onNoticeClick }) => {
           {data.map((row) => (
             <TableRow 
               key={row.id}
-              onClick={()=>onNoticeClick(row)}
               >
               <TableCell>{transformDepart(row.department)}</TableCell>
-              <TableCell>
+              <TableCell onClick={()=>onNoticeClick(row)}>
                 {row.title}
                 <div>
                   {row.keywords &&
@@ -59,7 +62,9 @@ const SearchResultList = ({ data, onNoticeClick }) => {
               </TableCell>
               <TableCell>
                 <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
+                  <FavoriteIcon 
+                    onClick={() => handleScrapClick(row.id)} 
+                  />
                 </IconButton>
               </TableCell>
             </TableRow>

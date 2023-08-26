@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Autocomplete,
@@ -168,7 +168,10 @@ const Step2 = ({ onNext }) => {
           </ToggleButton>
         </ToggleButtonGroup>
         <Box mt={2}>
-          <Button variant="standard" fullWidth onClick={handleNext}
+          <Button variant="standard" 
+              disabled={isDisabled}
+              fullWidth 
+              onClick={handleNext}
                 sx={{
                   backgroundColor: isDisabled ? 'transparent' : '#FFD302', 
                   '&:hover': {

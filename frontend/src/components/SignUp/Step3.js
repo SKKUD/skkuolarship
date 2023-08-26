@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Box,
@@ -7,6 +7,8 @@ import {
   MenuItem,
   Select,
   TextField,
+  Modal,
+  Typography,
 } from "@mui/material";
 
 const cities = {
@@ -166,16 +168,32 @@ const Step3 = ({ onNext }) => {
     ) &&
       residenceInfo.city === "");
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   const handleincomeBracketChange = (e) => {
     setIncomeBracket(e.target.value);
   };
 
   const handlegpaChange = (e) => {
-    setGpa(parseFloat(e.target.value)); 
+    const newValue = parseFloat(e.target.value);
+    if (!isNaN(newValue) && newValue <= 4.5) {
+      setGpa(newValue);
+    } else if (newValue > 4.5 || newValue < 0) {
+      setModalOpen(true);
+    } else {
+      setGpa(newValue); // 값 변경이 이루어질 수 있도록 추가
+    }
   };
 
   const handlelastSemGpaChange = (e) => {
-    setLastSemGpa(parseFloat(e.target.value)); 
+    const newValue = parseFloat(e.target.value);
+    if (!isNaN(newValue) && newValue <= 4.5) {
+      setLastSemGpa(newValue);
+    } else if (newValue > 4.5 || newValue < 0) {
+      setModalOpen(true);
+    } else {
+      setLastSemGpa(newValue); // 값 변경이 이루어질 수 있도록 추가
+    }
   };
 
   const handleResidenceChange = (e) => {
@@ -201,7 +219,7 @@ const Step3 = ({ onNext }) => {
     onNext(step3Data);
     console.log("step3Data", step3Data);
   };
-
+  
   return (
     <>
       <form>
@@ -211,7 +229,7 @@ const Step3 = ({ onNext }) => {
           value={gpa}
           onChange={handlegpaChange}
           fullWidth
-          inputProps={{ step: 0.1 }}
+          inputProps={{ step: 0.1, max: 4.5 }}
           sx={{ mb: 3 }}
         />
         <TextField
@@ -220,7 +238,7 @@ const Step3 = ({ onNext }) => {
           value={lastSemGpa}
           onChange={handlelastSemGpaChange}
           fullWidth
-          inputProps={{ step: 0.1 }}
+          inputProps={{ step: 0.1, max: 4.5 }}
           sx={{ mb: 3 }}
         />
         <FormControl fullWidth sx={{ mb: 3 }}>
@@ -308,6 +326,11 @@ const Step3 = ({ onNext }) => {
             완료
           </Button>
         </Box>
+        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', borderRadius: '5px', boxShadow: '0px 3px 6px rgba(0,0,0,0.3)' }}>
+            <Typography variant="h6">4.5가 최대 평점입니다.</Typography>
+          </div>
+        </Modal>
       </form>
     </>
   );

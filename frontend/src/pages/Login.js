@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, Container, Typography, Grid, Box } from '@mui/material';
+import { Button, Container, Grid, Box, Typography, Modal,} from '@mui/material';
 import { Link } from 'react-router-dom';
 import CustomTextField from '../components/CustomMUI/CustomTextField';
 import { useNavigate } from 'react-router-dom';
@@ -12,9 +12,10 @@ const Login = ({setIsLogin}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const [modalOpen, setModalOpen] = useState(false);
+
     const handleLogin = async () => {
         try {
-            console.log('로그인 시도');
             console.log('username:', username);
             console.log('password:', password);
 
@@ -35,14 +36,16 @@ const Login = ({setIsLogin}) => {
 
                 if(text === "로그인 아이디 또는 비밀번호가 틀렸습니다.") {
                     alert('로그인 실패');
-                    console.log('로그인 실패1');
+                    console.log('로그인 실패함');
                 } else{
                     localStorage.setItem('accessToken', text);
                     setIsLogin(true);
                     navigate('/');
                 }
             } else {
-                console.log('로그인 실패2');
+                console.log('로그인 실패');
+                // alert('아이디 또는 비밀번호가 잘못되었습니다.');
+                setModalOpen(true);
             }
         } catch (error) {
             console.error('로그인 오류:', error);
@@ -108,6 +111,14 @@ const Login = ({setIsLogin}) => {
                     </Button>
                 </Grid>
             </Grid>
+            <Modal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+            >
+                <div style={{ textAlign: 'center', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', borderRadius: '5px', boxShadow: '0px 3px 6px rgba(0,0,0,0.3)' }}>
+                    <Typography variant="h6" sx={{fontWeight: 800, p: 2}}>❌ <br/> 아이디 또는 비밀번호가 틀렸습니다.</Typography>
+                </div>
+            </Modal>
             </form>
         </Container>
     );
