@@ -111,6 +111,7 @@ public class UserService {
             return optionalUser.get();
         }
 
+
     public boolean isUsernameTaken(String username) {
         return userRepository.existsByUsername(username);
     }
