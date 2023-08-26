@@ -55,7 +55,7 @@ const AllNotices = () => {
         return Hangul.disassemble(text).filter((char) => Hangul.isCho(char)).join('');
     };
     
-    const filteredData = notices.filter((data) => {
+    const filteredData = notices && notices.filter((data) => {
         const chosungdepartment = searchChosung(data.department);
         const chosungTitle = searchChosung(data.title);
       

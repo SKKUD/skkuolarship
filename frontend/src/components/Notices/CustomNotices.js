@@ -42,7 +42,7 @@ const CustomNotices = () => {
         return Hangul.disassemble(text).filter((char) => Hangul.isCho(char)).join('');
     };
     
-    const filteredData = notices.filter((data) => {
+    const filteredData = notices && notices.filter((data) => {
         return (
             data.applyEndAt !== null &&
           (searchChosung(data.department).includes(searchChosung(searchTerm)) ||

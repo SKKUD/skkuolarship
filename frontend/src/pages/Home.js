@@ -8,17 +8,36 @@ import { Navigate } from 'react-router-dom';
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [token, setToken] = useState('');
 
   const handleTabChange = (event, newValue) => {
       setActiveTab(newValue);
   };
 
+  const [token, setToken] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     setToken(accessToken);
-    alert(accessToken);
+    
+    // if (accessToken) {
+    //   fetch('/info', {
+    //     method: 'GET',
+    //     headers: {
+    //       'Authorization': `Bearer ${accessToken}`,
+    //     },
+    //   })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     setUserInfo(data);
+    //     console.log(data);
+    //   })
+    //   .catch(error => {
+    //     console.error('유저 정보 가져오기 오류:', error);
+    //   });
+    // }
   }, []);
+  
 
   if (!isLogin) {
       return <Navigate to="/login" />;
