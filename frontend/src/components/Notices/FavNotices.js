@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography, Paper, InputBase, IconButton, Container, Select, MenuItem, FormControl } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import SearchResultList from './SearchResultList';

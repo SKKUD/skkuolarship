@@ -16,11 +16,24 @@ const CustomNotices = () => {
     const [selectedNotice, setSelectedNotice] = useState(null);
 
     useEffect(() => {
-        fetch('/all') 
-            .then(response => response.json())
-            .then(data => setNotices(data))
-            .catch(error => console.error('데이터 불러오기 오류:', error));
-    }, []); 
+        const accessToken = localStorage.getItem('accessToken');
+        
+        if (accessToken) {
+          fetch('/recommendation', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+          })
+          .then(response => response.json())
+          .then(data => {
+            setNotices(data);
+          })
+          .catch(error => {
+            console.error('추천 장학 가져오기:', error);
+          });
+        }
+    }, []);
 
     const handleNoticeClick = (notice) => {
         if(selectedNotice !== null) {

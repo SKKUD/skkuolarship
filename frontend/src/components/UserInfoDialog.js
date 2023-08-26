@@ -51,7 +51,7 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
         <Dialog open={open} onClose={onClose}>
             <List sx={{ width: '330px', p: 2 }}>
                 <div>
-                <Typography variant="h6" sx={{fontWeight: 800, textAlign: 'center', p: 2}}>👻 <br/> 진아지롱 님</Typography>
+                <Typography variant="h6" sx={{fontWeight: 800, textAlign: 'center', p: 2}}>👻 <br/> {userInfo.username} 님</Typography>
                 {editMode ? (
                     <Container>
                         <ListItem >
@@ -64,9 +64,15 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                                     label="현재학기"
                                     onChange={(e) => setUserInfo({ ...userInfo, semester: e.target.value })}
                                 >
-                                    {['1학기', '2학기', '3학기', '4학기', '5학기', '6학기', '7학기', '8학기', '9학기 이상'].map((value) => (
-                                        <MenuItem key={value} value={value}>{value}</MenuItem>
-                                    ))}
+                                    <MenuItem value={1}>1학기</MenuItem>
+                                    <MenuItem value={2}>2학기</MenuItem>
+                                    <MenuItem value={3}>3학기</MenuItem>
+                                    <MenuItem value={4}>4학기</MenuItem>
+                                    <MenuItem value={5}>5학기</MenuItem>
+                                    <MenuItem value={6}>6학기</MenuItem>
+                                    <MenuItem value={7}>7학기</MenuItem>
+                                    <MenuItem value={8}>8학기</MenuItem>
+                                    <MenuItem value={9}>9학기 이상</MenuItem>
                                 </Select>
                             </FormControl>
                         </ListItem>
@@ -76,12 +82,14 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                                 <Select
                                     labelId="registration-status-select-label"
                                     id="registration-status-select"
-                                    value={userInfo.registrationStatus}
+                                    value={userInfo.enrollStatus}
                                     label="등록상태"
-                                    onChange={(e) => setUserInfo({ ...userInfo, registrationStatus: e.target.value })}
+                                    onChange={(e) => setUserInfo({ ...userInfo, enrollStatus: e.target.value })}
                                >
-                                    {['재학', '휴학', '수료'].map((value) => (
-                                        <MenuItem key={value} value={value}>{value}</MenuItem>
+                                    {['enrolled', 'absence', 'certificated'].map((value) => (
+                                        <MenuItem key={value} value={value}>
+                                            {value === 'enrolled' ? '재학' : value === 'absence' ? '휴학' : '수료'}
+                                        </MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
@@ -90,32 +98,31 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                             <TextField
                                 type="number"
                                 label="전체학기 평점"
-                                value={userInfo.averageGrade}
-                                onChange={(e) => setUserInfo({...userInfo, averageGrade: e.target.value})}
+                                value={userInfo.gpa}
+                                onChange={(e) => setUserInfo({...userInfo, gpa: e.target.value})}
                                 fullWidth
                                 inputProps={{ step: 0.1 }} 
-                                
                             />
                         </ListItem>
                         <ListItem>
                             <TextField
                                 type="number"
                                 label="직전학기 평점"
-                                value={userInfo.lastSemesterGrade}
-                                onChange={(e) => setUserInfo({...userInfo, lastSemesterGrade: e.target.value})}
+                                value={userInfo.lastSemGpa}
+                                onChange={(e) => setUserInfo({...userInfo, lastSemGpa: e.target.value})}
                                 fullWidth
                                 inputProps={{ step: 0.1 }} 
                             />
                         </ListItem>
                         <ListItem>
                             <FormControl fullWidth>
-                                <InputLabel id="income-quintile-select-label">소득 분위</InputLabel>
+                                <InputLabel id="incomeBracket-quintile-select-label">소득 분위</InputLabel>
                                 <Select
-                                    labelId="income-quintile-select-label"
-                                    id="income-quintile-select"
-                                    value={userInfo.income}
+                                    labelId="incomeBracket-quintile-select-label"
+                                    id="incomeBracket-quintile-select"
+                                    value={userInfo.incomeBracket}
                                     label="소득 분위"
-                                    onChange={(e) => setUserInfo({...userInfo, income: e.target.value})}
+                                    onChange={(e) => setUserInfo({...userInfo, incomeBracket: e.target.value})}
                                 >
                                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
                                         <MenuItem key={value} value={value}>{value}분위</MenuItem>
@@ -129,9 +136,9 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                                     <Select
                                         labelId="residence-select-label"
                                         id="residence-select"
-                                        value={userInfo.residenceInfo.residence}
+                                        value={userInfo.residence}
                                         label="거주지"
-                                        onChange={(e) => setUserInfo({...userInfo, residenceInfo: {...userInfo.residenceInfo, residence: e.target.value}})}
+                                        onChange={(e) => setUserInfo({...userInfo, residence: {...userInfo.residence, residence: e.target.value}})}
                                         >
                                         {['강원', '경기', '경상', '광주', '대구', '대전', '부산', '서울', '세종', '울산', '인천', '전라', '제주', '충청'].map((region) => (
                                             <MenuItem key={region} value={region}>{region}</MenuItem>
@@ -139,14 +146,14 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                                     </Select>
                                 </FormControl>
                             </ListItem>
-                            {['강원', '경기', '경상', '전라', '충청', '서울'].includes(userInfo.residenceInfo.residence) && (
+                            {/* {['강원', '경기', '경상', '전라', '충청', '서울'].includes(userInfo.residenceInfo.residence) && (
                                 <ListItem>
                                     <FormControl fullWidth >
                                         <InputLabel id="city-select-label">시/군/구</InputLabel>
                                         <Select
                                             labelId="city-select-label"
                                             id="city-select"
-                                            value={userInfo.residenceInfo.city}
+                                            value={userInfo.residence}
                                             label="시/군/구"
                                             onChange={(e) => setUserInfo({...userInfo, residenceInfo: {...userInfo.residenceInfo, city: e.target.value}})}
                                         >
@@ -156,7 +163,7 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                                         </Select>
                                     </FormControl>
                                 </ListItem>
-                        )}
+                        )} */}
                         <ListItem sx={{justifyContent: 'flex-end'}}>
                             <IconButton onClick={handleSaveClick}>
                                 <SaveIcon />
@@ -167,15 +174,15 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                     <Container>
                         <ListItem>
                             <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>성별 </Typography>
-                            <Typography variant="body1">{userInfo.gender}</Typography>                        
+                            <Typography variant="body1">{userInfo.gender === "female"? "여자" : "남자"}</Typography>                        
                         </ListItem>
                         <ListItem>
                             <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>현재학기 </Typography>
-                            <Typography variant="body1">{userInfo.semester}</Typography>   
+                            <Typography variant="body1">{userInfo.semester}학기</Typography>   
                         </ListItem>
                         <ListItem>
                             <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>등록상태 </Typography>
-                            <Typography variant="body1">{userInfo.registrationStatus}</Typography> 
+                            <Typography variant="body1">{userInfo.enrollStatus === 'enrolled' ? '재학' : userInfo.enrollStatus === 'absence' ? '휴학' : '수료'}</Typography> 
                         </ListItem>
                         <ListItem>
                             <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>전공 </Typography>
@@ -183,19 +190,19 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
                         </ListItem>
                         <ListItem>
                             <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>전체학기 평점 </Typography>
-                            <Typography variant="body1">{userInfo.averageGrade}</Typography> 
+                            <Typography variant="body1">{userInfo.gpa} <b>/ 4.5</b></Typography> 
                         </ListItem>
                         <ListItem>
                             <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>직전학기 평점 </Typography>
-                            <Typography variant="body1">{userInfo.lastSemesterGrade}</Typography> 
+                            <Typography variant="body1">{userInfo.lastSemGpa} <b>/ 4.5</b></Typography> 
                         </ListItem>
                         <ListItem>
                             <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>소득분위 </Typography>
-                            <Typography variant="body1">{userInfo.income}분위</Typography> 
+                            <Typography variant="body1">{userInfo.incomeBracket}분위</Typography> 
                         </ListItem>
                         <ListItem>
                                 <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>거주지 </Typography>
-                                <Typography variant="body1">{userInfo.residenceInfo.city ? `${userInfo.residenceInfo.residence} ${userInfo.residenceInfo.city}` : userInfo.residenceInfo.residence}</Typography>
+                                <Typography variant="body1">{userInfo.residence}</Typography>
                         </ListItem>
                         <ListItem sx={{justifyContent: 'flex-end'}}>
                             <IconButton onClick={handleEditClick}>

@@ -20,22 +20,22 @@ const Home = ({ isLogin }) => {
     const accessToken = localStorage.getItem('accessToken');
     setToken(accessToken);
     
-    // if (accessToken) {
-    //   fetch('/info', {
-    //     method: 'GET',
-    //     headers: {
-    //       'Authorization': `Bearer ${accessToken}`,
-    //     },
-    //   })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setUserInfo(data);
-    //     console.log(data);
-    //   })
-    //   .catch(error => {
-    //     console.error('유저 정보 가져오기 오류:', error);
-    //   });
-    // }
+    if (accessToken) {
+      fetch('/info', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        setUserInfo(data);
+        localStorage.setItem('userInfo', JSON.stringify(data));
+      })
+      .catch(error => {
+        console.error('유저 정보 가져오기 오류:', error);
+      });
+    }
   }, []);
   
 
