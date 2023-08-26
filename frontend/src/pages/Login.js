@@ -7,7 +7,6 @@ import logo from '../images/logo4.png';
 import character from '../images/character.png';
 
 const Login = ({setIsLogin}) => {
-
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');

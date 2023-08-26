@@ -9,10 +9,10 @@ const SearchResultList = ({ data, onNoticeClick }) => {
       <Table >
         <TableHead>
           <TableRow>
-            <TableCell>담당부서</TableCell>
-            <TableCell>공고명</TableCell>
-            <TableCell>마감일</TableCell>
-            <TableCell>스크랩</TableCell>
+            <TableCell style={{ width: '13%' }}>담당부서</TableCell>
+            <TableCell style={{ width: '60%' }}>공고명</TableCell>
+            <TableCell style={{ width: '12%' }}>마감일</TableCell>
+            <TableCell style={{ width: '10%' }}>스크랩</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -26,10 +26,10 @@ const SearchResultList = ({ data, onNoticeClick }) => {
                 {row.title}
                 <div>
                   {row.keywords &&
-                    row.keywords.map((keyword, index) => (
+                    row.keywords.slice(0, 5).map((keyword, index) => (
                       <Chip
                         key={index}
-                        sx={{ m: '8px 10px 0px 0px', p: '5px' }}
+                        sx={{ m: '8px 10px 0px 0px', p: '3px' }}
                         label={`#${keyword}`}
                       />
                     ))}
