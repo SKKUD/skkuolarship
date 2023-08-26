@@ -30,7 +30,6 @@ const Login = ({setIsLogin}) => {
                 }),
             });
     
-
             if (response.ok) {
                 const text = await response.text();
                 console.log('응답결과',text);
@@ -39,6 +38,7 @@ const Login = ({setIsLogin}) => {
                     alert('로그인 실패');
                     console.log('로그인 실패');
                 } else{
+                    localStorage.setItem('accessToken', text);
                     setIsLogin(true);
                     navigate('/');
                 }

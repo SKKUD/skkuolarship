@@ -57,7 +57,6 @@ const NoticeDetail = ({ notice }) => {
                   />
                 ))}
             </div>
-            <Typography variant="body2" sx={{ fontWeight: 500, p: '0 3px' }}>조회수: {notice.viewCount}</Typography>
           </div>
           <Divider sx={{ margin: '15px 0 20px' }} />
               {renderSubtitle('신청기간', notice.applyEndAt ? `~ ${notice.applyEndAt}` : null)}
