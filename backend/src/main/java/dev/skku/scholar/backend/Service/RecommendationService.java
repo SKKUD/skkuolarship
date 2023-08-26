@@ -4,7 +4,7 @@ import dev.skku.scholar.backend.domain.Scholarship;
 import dev.skku.scholar.backend.domain.ScholarshipTag;
 import dev.skku.scholar.backend.domain.Tag;
 import dev.skku.scholar.backend.domain.User;
-import dev.skku.scholar.backend.repository.ScholarshipRepo;
+import dev.skku.scholar.backend.repository.ScholarshipRepository;
 import dev.skku.scholar.backend.repository.ScholarshipTagRepository;
 import dev.skku.scholar.backend.repository.TagRepository;
 import dev.skku.scholar.backend.repository.UserRepo;
@@ -19,14 +19,14 @@ public class RecommendationService {
     private final UserRepo userRepository;
     private final TagRepository tagRepository;
     private final ScholarshipTagRepository scholarshipTagRepository;
-    private final ScholarshipRepo scholarshipRepo;
+    private final ScholarshipRepository scholarshipRepository;
 
     @Autowired
-    public RecommendationService(UserRepo userRepository, TagRepository tagRepository, ScholarshipTagRepository scholarshipTagRepository, ScholarshipRepo scholarshipRepo) {
+    public RecommendationService(UserRepo userRepository, TagRepository tagRepository, ScholarshipTagRepository scholarshipTagRepository, ScholarshipRepository scholarshipRepository) {
         this.userRepository = userRepository;
         this.tagRepository = tagRepository;
         this.scholarshipTagRepository = scholarshipTagRepository;
-        this.scholarshipRepo = scholarshipRepo;
+        this.scholarshipRepository = scholarshipRepository;
     }
 
 //    public List<Long> getRecommendedScholarships(String username) {
@@ -56,12 +56,12 @@ public class RecommendationService {
         recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnMajor(user.get()));
         //recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnSemester(user.get()));
 
-        return scholarshipRepo.findByIdIn(recommendedScholarshipIds);
+        return scholarshipRepository.findByIdIn(recommendedScholarshipIds);
     }
 
     private Map<Long, Scholarship> getScholarshipInfoForTag(List<Long> scholarshipIds) {
         Map<Long, Scholarship> scholarshipInfoMap = new HashMap<>();
-        List<Scholarship> scholarships = scholarshipRepo.findByIdIn(scholarshipIds);
+        List<Scholarship> scholarships = scholarshipRepository.findByIdIn(scholarshipIds);
 
         for (Scholarship scholarship : scholarships) {
             scholarshipInfoMap.put(scholarship.getId(), scholarship);

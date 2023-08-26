@@ -29,9 +29,9 @@ public class JoinRequest {
 
     private EEnrollment enrollStatus;
 
-    private float gpa;
+    private Float gpa;
 
-    private float lastSemGpa;
+    private Float lastSemGpa;
 
     private Integer incomeBracket;
 
