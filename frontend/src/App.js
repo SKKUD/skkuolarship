@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import SplashScreen from './pages/SplashScreen';
 
 const theme = createTheme({
   typography: {
@@ -25,6 +26,7 @@ const App = () => {
       <Router>
         <div style={{ height: '100%', width: '100vw'}}>
           <Routes>
+            <Route path="/splash" element={<SplashScreen />} />
             <Route
               path="/"
               element={<Home isLogin={isLogin} setIsLogin={setIsLogin} />} 
