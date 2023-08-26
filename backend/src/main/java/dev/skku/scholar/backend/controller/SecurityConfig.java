@@ -13,40 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/*@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
-@RequiredArgsConstructor
-public class SecurityConfig {
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests()
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/join").permitAll()
-                .anyRequest().authenticated() // 나머지 모든 요청은 인증된 사용자만 접근
-                .and()
-                .formLogin(login -> login	// form 방식 로그인 사용
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/")	// 성공 시 home
-                        .failureUrl("/login?error")
-                        .permitAll()	// 대시보드 이동이 막히면 안되므로 얘는 허용
-                )
-                .logout(withDefaults());
-
-
-        return http.build();
-   }
-   }*/
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -69,6 +35,4 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-    /*.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-    UsernamePasswordAuthenticationFilter.class); // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다*/
 }
