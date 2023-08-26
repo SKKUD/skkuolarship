@@ -32,9 +32,9 @@ public class JoinRequest {
 
     private EEnrollment enrollStatus;
 
-    private Integer gpa;
+    private Float gpa;
 
-    private Integer lastSemGpa;
+    private Float lastSemGpa;
 
     private Integer incomeBracket;
 
