@@ -32,6 +32,7 @@ public class ScholarshipService {
         this.scholarshipRepository = scholarshipRepository;
         this.scholarshipTagRepository = scholarshipTagRepository;
         this.tagRepository = tagRepository;
+    }
 
     public Map<Scholarship, List<String>> scholarshipWithKeywords(){
         Map<Scholarship, List<String>> scholarshipAndKeywords = new HashMap<>();
