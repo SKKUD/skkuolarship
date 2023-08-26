@@ -16,7 +16,7 @@ const AllNotices = () => {
 
     const [sortType, setSortType] = useState('applyEarly');
 
-    const tags = ['교내', '교외', '1학년', '2학년', '3학년', '4학년', '교환학생', '재학생', '휴학생', '취업지원', '주거지원'];
+    const tags = ['1학년', '2학년', '3학년', '4학년', '평점평균 1','평점평균 2', '평점평균 3', '평점평균 4',  '재학', '휴학', '소프트', '의학', '전자', '건축', '수학', '어문', '독어', '경영','취업지원', '주거지원', '교환학생'];
 
     const [notices, setNotices] = useState([]); 
 
@@ -33,6 +33,31 @@ const AllNotices = () => {
         } else {
             setSelectedNotice(notice);
         }
+    };
+
+    const [scrappedNoticeIds, setScrappedNoticeIds] = useState([]);
+
+    useEffect(() => {
+        updateNotices();
+    }, []);
+
+    const updateNotices = () => {
+        const accessToken = localStorage.getItem('accessToken');
+    
+        fetch('/scrap', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        })
+        .then(response => response.json())
+        .then(data => {
+            const scrappedNoticeIds = data.map(notice => notice.id); 
+            setScrappedNoticeIds(scrappedNoticeIds);
+        })
+        .catch(error => {
+          console.error('관심 장학 가져오기:', error);
+        });
     };
 
     const handleTagClick = (tag) => {
@@ -140,6 +165,7 @@ const AllNotices = () => {
                                 color: selectedTags.includes(tag) ? 'white' : '#505050', 
                             },
                             fontSize: '13px',
+                            fontWeight: 700,
                         }}
                     >
                         {'#'+tag}
@@ -158,7 +184,7 @@ const AllNotices = () => {
                     <Typography variant="body1" sx={{ fontWeight: 700, margin: '24px 0px'}}>검색 결과가 없습니다. <br/> 다른 검색어를 입력해주세요!</Typography> 
                 </Container>
             ) : (
-                <SearchResultList data={updatedData} onNoticeClick={handleNoticeClick} />
+                <SearchResultList data={updatedData} updateNotices={updateNotices} onNoticeClick={handleNoticeClick} scrappedNoticeIds={scrappedNoticeIds}/>
             )
         )}
         </>

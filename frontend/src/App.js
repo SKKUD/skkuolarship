@@ -20,20 +20,20 @@ const theme = createTheme({
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div style={{ height: '100%', width: '100vw'}}>
-          <Routes>
-            <Route path="/splash" element={<SplashScreen />} />
-            <Route
-              path="/"
-              element={<Home isLogin={isLogin} setIsLogin={setIsLogin} />} 
-            />
-            <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
-            <Route path="/signUp" element={<SignUp/>} />
-          </Routes>
+        <Routes>
+            <>
+              <Route path="/" element={<SplashScreen setShowSplash={setShowSplash} />} />
+              <Route path="/home" element={<Home isLogin={isLogin} setIsLogin={setIsLogin} />} />
+              <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
+              <Route path="/signUp" element={<SignUp/>} />
+            </>
+        </Routes>
         </div>
       </Router>
     </ThemeProvider>

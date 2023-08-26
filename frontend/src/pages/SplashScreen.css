@@ -9,18 +9,18 @@
   }
   
   .splash-text {
-    font-size: 6rem;
-    color: #64ffda;
+    font-size: 18rem;
+    color: #76a9fc;
     animation: fadeInUp 1s forwards;
     cursor: pointer;
   }
   
   .second-splash-text {
-    font-size: 6rem;
+    font-size: 20rem;
     color: #64ffda;
     animation: slideToLeft 1s forwards;
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -48,4 +48,10 @@
       transform: translateX(0);
     }
   }
-  
+
+.character-image {
+    max-width: 90%;
+    max-height: 70%;
+    animation: fadeInUp 1.5s forwards;
+    cursor: pointer;
+}

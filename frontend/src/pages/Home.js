@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom';
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const [scrappedNoticeIds, setScrappedNoticeIds] = useState([]);
 
   const handleTabChange = (event, newValue) => {
       setActiveTab(newValue);
@@ -37,6 +38,28 @@ const Home = ({ isLogin }) => {
       });
     }
   }, []);
+
+  useEffect(() => {
+      updateNotices();
+  }, []);
+
+  const updateNotices = () => {
+      const accessToken = localStorage.getItem('accessToken');
+
+      fetch('/scrap', {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${accessToken}`,
+          },
+      })
+      .then(response => response.json())
+      .then(data => {
+          setScrappedNoticeIds(data.map(notice => notice.id));
+      })
+      .catch(error => {
+          console.error('관심 장학 가져오기:', error);
+      });
+  };
   
 
   if (!isLogin) {

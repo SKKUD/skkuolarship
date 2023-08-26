@@ -3,9 +3,27 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import transformDepart from '../../utils/transformDepart';
 
-const SearchResultList = ({ data, onNoticeClick }) => {
+const SearchResultList = ({ data, onNoticeClick, updateNotices, scrappedNoticeIds }) => {
+
   const handleScrapClick = (noticeId) => {
-    alert(`게시글 ID: ${noticeId} 가 스크랩되었습니다.`);
+    const accessToken = localStorage.getItem('accessToken');
+  
+    fetch(`/scrap/${noticeId}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    })
+    .then(response => {
+      if (response.ok) {
+        updateNotices();
+      } else {
+        console.error('스크랩 실패:', response.status);
+      }
+    })
+    .catch(error => {
+      console.error('스크랩 오류:', error);
+    });
   };
 
   return (
@@ -61,9 +79,9 @@ const SearchResultList = ({ data, onNoticeClick }) => {
                 ) : null}
               </TableCell>
               <TableCell>
-                <IconButton aria-label="add to favorites">
+                <IconButton aria-label="add to favorites" onClick={() => handleScrapClick(row.id)} >
                   <FavoriteIcon 
-                    onClick={() => handleScrapClick(row.id)} 
+                    color={(scrappedNoticeIds && scrappedNoticeIds.includes(row.id)) ? 'error' : 'inherit'}
                   />
                 </IconButton>
               </TableCell>

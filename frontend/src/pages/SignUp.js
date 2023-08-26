@@ -54,7 +54,8 @@ const SignUp = () => {
         if(response.status === 200) {
             navigate('/login');
         } else {
-            alert('회원가입 실패');
+            console.log('회원가입 실패');
+            navigate('/login');
         }
     };
     
@@ -106,7 +107,7 @@ const SignUp = () => {
                 </div>
                 {activeStep === 0 && <Step1 onNext={handleStep1Complete} />}
                 {activeStep === 1 && <Step2 onNext={handleStep2Complete} />}
-                {activeStep === 2 && <Step3 onNext={handleNext} />}
+                {activeStep === 2 && <Step3 onNext={handleNext}/>}
             </Container>
         </>
     );

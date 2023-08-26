@@ -35,6 +35,32 @@ const CustomNotices = () => {
         }
     }, []);
 
+
+    const [scrappedNoticeIds, setScrappedNoticeIds] = useState([]);
+
+    useEffect(() => {
+        updateNotices();
+    }, []);
+
+    const updateNotices = () => {
+        const accessToken = localStorage.getItem('accessToken');
+    
+        fetch('/scrap', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        })
+        .then(response => response.json())
+        .then(data => {
+            const scrappedNoticeIds = data.map(notice => notice.id); 
+            setScrappedNoticeIds(scrappedNoticeIds);
+        })
+        .catch(error => {
+          console.error('관심 장학 가져오기:', error);
+        });
+    };
+
     const handleNoticeClick = (notice) => {
         if(selectedNotice !== null) {
             setSelectedNotice(null);
@@ -137,7 +163,7 @@ const CustomNotices = () => {
                     <Typography variant="body1" sx={{ fontWeight: 700, margin: '24px 0px'}}>검색 결과가 없습니다. <br/> 다른 검색어를 입력해주세요!</Typography> 
                 </Container>
             ) : (
-                <SearchResultList data={updatedData} onNoticeClick={handleNoticeClick} />
+                <SearchResultList data={updatedData} onNoticeClick={handleNoticeClick} updateNotices={updateNotices}  scrappedNoticeIds={scrappedNoticeIds}/>
             )
         )}
         </>

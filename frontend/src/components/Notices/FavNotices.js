@@ -14,6 +14,8 @@ const FavNotices = () => {
     const [sortType, setSortType] = useState('applyEarly');
     const [selectedNotice, setSelectedNotice] = useState(null);
 
+    const [notices, setNotices] = useState([]);
+
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
@@ -30,51 +32,37 @@ const FavNotices = () => {
         }
     };
     
-    const dummyData = [
-        {
-        id: 1,
-        department: '국제교류부',
-        title: '2023년도 국제교류 장학생 선발 공고',
-        keywords: ['교내', '국제교류', '교환학생'],
-        applyEndAt: '2023-09-09',
-        viewCount: 999,
+    const [scrappedNoticeIds, setScrappedNoticeIds] = useState([]);
 
-        stuNum: 1,
-        benefit: '학기당 100만원',
-        method: {
-            submitTo: '이메일 접수 skkujanghak@skku.edu',
-            submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-            submitDate: '2023-08-13',
-        },
-        target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-        inquiry: '학생지원팀 02-760-1167',
-        link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-        },
-        {
-        id: 2,
-        department: '학생복지부',
-        title: '2023년도 학생복지 장학생 선발 공고',
-        keywords: ['교내', '학생복지', '직전학기 3.5 이상'],
-        applyEndAt: '2023-08-15',
-        viewCount: 234,
-        stuNum: 1,
-        benefit: '학기당 100만원',
-        method: {
-            submitTo: '이메일 접수 skkujanghak@skku.edu',
-            submitLists: '재학증명서, 성적증명서, 등록금 고지서, 추천서',
-            submitDate: '2023-08-13',
-        },
-        target: '전공무관, 학부 2학년 이상 학생, GPA 3.6 이상',
-        inquiry: '학생지원팀 02-760-1167',
-        link: 'https://www.skku.edu/skku/campus/skk_comm/notice06.do?mode=view&articleNo=108203&article.offset=0&articleLimit=10',
-        },
-    ];
+    useEffect(() => {
+        updateNotices();
+    }, []);
+
+    const updateNotices = () => {
+        const accessToken = localStorage.getItem('accessToken');
+    
+        fetch('/scrap', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        })
+        .then(response => response.json())
+        .then(data => {
+            setNotices(data);
+            const scrappedNoticeIds = data.map(notice => notice.id); 
+            setScrappedNoticeIds(scrappedNoticeIds);
+        })
+        .catch(error => {
+          console.error('관심 장학 가져오기:', error);
+        });
+    };
 
     const searchChosung = (text) => {
         return Hangul.disassemble(text).filter((char) => Hangul.isCho(char)).join('');
     };
     
-    const filteredData = dummyData.filter((data) => {
+    const filteredData = notices && notices.filter((data) => {
         return (
             data.applyEndAt !== null && (
           searchChosung(data.department).includes(searchChosung(searchTerm)) ||
@@ -155,7 +143,7 @@ const FavNotices = () => {
                     <Typography variant="body1" sx={{ fontWeight: 700, margin: '24px 0px'}}>검색 결과가 없습니다. <br/> 다른 검색어를 입력해주세요!</Typography> 
                 </Container>
             ) : (
-                <SearchResultList data={updatedData} onNoticeClick={handleNoticeClick} />
+                <SearchResultList data={updatedData} onNoticeClick={handleNoticeClick} updateNotices={updateNotices} scrappedNoticeIds={scrappedNoticeIds}/>
             )
         )}
         </>
