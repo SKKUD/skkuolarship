@@ -1,9 +1,12 @@
 package dev.skku.scholar.backend.controller;
 
 import dev.skku.scholar.backend.Service.UserService;
+import dev.skku.scholar.backend.domain.EEnrollment;
+import dev.skku.scholar.backend.domain.ESex;
 import dev.skku.scholar.backend.domain.User;
 import dev.skku.scholar.backend.dto.JoinRequest;
 import dev.skku.scholar.backend.dto.LoginRequest;
+import dev.skku.scholar.backend.dto.UserForm;
 import dev.skku.scholar.backend.jwt.JwtTokenUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+
+import static dev.skku.scholar.backend.controller.SecurityConfig.secretKey;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,7 +63,7 @@ public class JwtUserController {
 
         // 로그인 아이디나 비밀번호가 틀린 경우 global error return
         if(user == null) {
-            return ResponseEntity.ok("로그인 아이디 또는 비밀번호가 틀렸습니다.");
+            return ResponseEntity.badRequest().body("로그인 아이디 또는 비밀번호가 틀렸습니다.");
         }
         // 로그인 성공 => Jwt Token 발급
         String secretKey = "my-secret-key-123123";
@@ -67,12 +74,45 @@ public class JwtUserController {
         return ResponseEntity.ok(jwtToken);
     }
 
-    @GetMapping("/home")
+    @GetMapping("/info")
+    public ResponseEntity<UserForm> getLoggedInUserInfo(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = extractToken(authorizationHeader);
+        String username = JwtTokenUtil.getLoginId(token, secretKey);
+
+        User loggedInUser = userService.getLoginUserByUsername(username);
+
+        if (loggedInUser != null) {
+            UserForm userForm = new UserForm();
+            userForm.setEmail(loggedInUser.getEmail());
+            userForm.setSex(loggedInUser.getSex());
+            userForm.setBirth(loggedInUser.getBirth());
+            userForm.setUsername(loggedInUser.getUsername());
+            userForm.setMajor(loggedInUser.getMajor());
+            userForm.setSemester(loggedInUser.getSemester());
+            userForm.setIncomeBracket(loggedInUser.getIncomeBracket());
+            userForm.setGpa(loggedInUser.getGpa());
+            userForm.setLastSemGpa(loggedInUser.getLastSemGpa());
+            userForm.setResidence(loggedInUser.getResidence());
+            userForm.setEnrollStatus(loggedInUser.getEnrollStatus());
+            return ResponseEntity.ok(userForm);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    private String extractToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        return null;
+    }
+    /*@GetMapping("/home")
     public String userHome(Authentication auth) {
         User loginUser = userService.getLoginUserByUsername(auth.getName());
         return String.format("username : %s\n",
                 loginUser.getUsername());
-    }
+    }*/
+
     /*@PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
 

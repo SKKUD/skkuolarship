@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScholarshipService {
     private final ScholarshipRepo scholarshipRepo;
-    private final TagRepository tagRepository;
     public List<Scholarship> findScholarships() {
         return scholarshipRepo.findAll();
     }
