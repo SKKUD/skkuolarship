@@ -14,7 +14,7 @@ const AllNotices = () => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedNotice, setSelectedNotice] = useState(null);
 
-    const [sortType, setSortType] = useState('id');
+    const [sortType, setSortType] = useState('applyEarly');
 
     const tags = ['교내', '교외', '1학년', '2학년', '3학년', '4학년', '교환학생', '재학생', '휴학생', '취업지원', '주거지원'];
 
@@ -67,13 +67,11 @@ const AllNotices = () => {
     });
 
     const sortedData = [...filteredData].sort((a, b) => {
-        if (sortType === 'id') {
-          return b.id - a.id;
-        } else if (sortType === 'applyEndAt') {
+        if (sortType === 'applyLate') {
+          return new Date(b.applyEndAt) - new Date(a.applyEndAt);
+        } else if (sortType === 'applyEarly') {
           return new Date(a.applyEndAt) - new Date(b.applyEndAt);
-        } else if (sortType === 'viewCount') {
-          return b.viewCount - a.viewCount;
-        }
+        } 
 
         return 0;
     });

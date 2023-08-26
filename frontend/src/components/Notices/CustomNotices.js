@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Typography, Paper, InputBase, IconButton, Container, Select, MenuItem, FormControl } from "@mui/material";
+import { Typography, Paper, InputBase, IconButton, Container } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import SearchResultList from './SearchResultList';
 import noResult from '../../images/noResult.png';
 import Hangul from 'hangul-js';
-import CustomInputBase from '../CustomMUI/CustomInputBase';
+import ArrowBackIcon from '@mui/icons-material/ArrowBackIos';
 import formatDate from '../../utils/formatDate';
 import NoticeDetail from './NoticeDetail';
+import NoticeFilter from './NoticeFilter';
 
 const CustomNotices = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortType, setSortType] = useState('id');
+    const [sortType, setSortType] = useState('applyEarly');
     const [notices, setNotices] = useState([]); 
     const [selectedNotice, setSelectedNotice] = useState(null);
 
@@ -51,13 +52,12 @@ const CustomNotices = () => {
     });
 
     const sortedData = [...filteredData].sort((a, b) => {
-        if (sortType === 'id') {
-          return b.id - a.id;
-        } else if (sortType === 'applyEndAt') {
+        if (sortType === 'applyLate') {
+          return new Date(b.applyEndAt) - new Date(a.applyEndAt);
+        } else if (sortType === 'applyEarly') {
           return new Date(a.applyEndAt) - new Date(b.applyEndAt);
-        } else if (sortType === 'viewCount') {
-          return b.viewCount - a.viewCount;
-        }
+        } 
+
         return 0;
     });
 
@@ -88,38 +88,33 @@ const CustomNotices = () => {
     return (
         <>
         <Typography variant="h5" sx={{ fontWeight: 900, margin: '20px 0px' }}>추천 장학</Typography>
-        <div style={{ display:'flex', justifyContent:'flex-end'}}>
-            <Paper
-                component="form"
-                sx={{ p: '2px 10px', display: 'flex', alignItems: 'center', width: 400 , backgroundColor: '#f5f5f5'}}
-                elevation={0}
-                >
-                <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="검색"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                />
-                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                    <SearchIcon />
-                </IconButton>
-            </Paper>
-        </div>
-        <div style={{ display:'flex', justifyContent:'space-between'}}>
-            <Typography variant="body2" sx={{ fontWeight: 500, margin: '24px 0px'}}>검색 결과 {filteredData.length} 건</Typography>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 100, justifyContent: 'center' }}>
-                <Select
-                    value={sortType}
-                    onChange={handleSortChange}
-                    input={<CustomInputBase />}
-                    sx={{fontSize: '14px'}}
-                >
-                    <MenuItem value="id" sx={{fontSize: '14px'}} >최신순</MenuItem>
-                    <MenuItem value="applyEndAt" sx={{fontSize: '14px'}}>마감일순</MenuItem>
-                    <MenuItem value="viewCount" sx={{fontSize: '14px'}}>조회순</MenuItem>
-                </Select>
-            </FormControl>
-        </div>
+        { selectedNotice !== null ? (
+            <div onClick={handleNoticeClick} style={{display: 'flex', alignItems: 'center', padding: '5px 0 10px'}}>
+                <ArrowBackIcon sx={{ fontSize: 22, cursor: 'pointer', color: 'gray'}} />
+                <Typography variant="body1" sx={{ fontWeight: 700, cursor: 'pointer', pt: '2px', color: 'gray'}}>목록보기</Typography>
+          </div>
+        ) : (
+            <>
+                <div style={{ display:'flex', justifyContent:'flex-end'}}>
+                <Paper
+                    component="form"
+                    sx={{ p: '2px 10px', display: 'flex', alignItems: 'center', width: 400 , backgroundColor: '#f5f5f5'}}
+                    elevation={0}
+                    >
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="검색"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                    />
+                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
+            </div>
+            <NoticeFilter sortType={sortType} handleSortChange={handleSortChange} filteredDataLength={filteredData.length} />
+            </>
+        )}
         { selectedNotice !== null ? (
             <NoticeDetail notice={selectedNotice} />
             ) : (

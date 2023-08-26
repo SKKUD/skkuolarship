@@ -13,9 +13,8 @@ const NoticeFilter = ({ sortType, handleSortChange, filteredDataLength }) => {
           input={<CustomInputBase />}
           sx={{ fontSize: '14px' }}
         >
-          <MenuItem value="id" sx={{ fontSize: '14px' }}>최신순</MenuItem>
-          <MenuItem value="dateEnd" sx={{ fontSize: '14px' }}>마감일순</MenuItem>
-          <MenuItem value="views" sx={{ fontSize: '14px' }}>조회순</MenuItem>
+          <MenuItem value="applyLate" sx={{ fontSize: '14px' }}>마감늦은순</MenuItem>
+          <MenuItem value="applyEarly" sx={{ fontSize: '14px' }}>마감빠른순</MenuItem>
         </Select>
       </FormControl>
     </div>

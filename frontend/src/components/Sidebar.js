@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, Avatar, Button, Typography } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import profileF from '../images/profileFemale.jpeg';
 import character from '../images/character2.png';
 import UserInfoDialog from './UserInfoDialog';
 import money from '../images/money1.jpeg';
+
 const Sidebar = ({ isOpen, onClose, isLogin }) => {
     const userId = "진아지롱";
     const [openDialog, setOpenDialog] = useState(false);

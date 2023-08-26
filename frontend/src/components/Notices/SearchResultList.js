@@ -12,7 +12,6 @@ const SearchResultList = ({ data, onNoticeClick }) => {
             <TableCell>담당부서</TableCell>
             <TableCell>공고명</TableCell>
             <TableCell>마감일</TableCell>
-            <TableCell>조회수</TableCell>
             <TableCell>스크랩</TableCell>
           </TableRow>
         </TableHead>
@@ -58,7 +57,6 @@ const SearchResultList = ({ data, onNoticeClick }) => {
                   )
                 ) : null}
               </TableCell>
-              <TableCell>{row.viewCount}</TableCell>
               <TableCell>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />

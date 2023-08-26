@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Autocomplete,
@@ -28,21 +28,21 @@ const Step2 = ({ onNext }) => {
     '인문과학계열', '사회과학계열', '자연과학계열', '공학계열'
   ]; 
   
-  const [gender, setGender] = useState('');
-  const [birthDate, setBirthDate] = useState('');
+  const [sex, setSex] = useState('');
+  const [birth, setBirth] = useState('');
   const [email, setEmail] = useState('');
   const [major, setMajor] = useState('');
   const [semester, setSemester] = useState('');
-  const [registrationStatus, setRegistrationStatus] = useState('');
+  const [enrollStatus, setEnrollStatus] = useState('');
 
-  const isDisabled  = gender === '' || birthDate === '' || email === '' || major === '' || semester === '' || registrationStatus === '';
+  const isDisabled  = sex === '' || birth === '' || email === '' || major === '' || semester === '' || enrollStatus === '';
 
-  const handleGenderChange = (e, newValue) => {
-    setGender(newValue);
+  const handleSexChange = (e) => {
+    setSex(e.target.value);
   };
 
-  const handleBirthDateChange = (e) => {
-    setBirthDate(e.target.value);
+  const handleBirthChange = (e) => {
+    setBirth(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -57,18 +57,42 @@ const Step2 = ({ onNext }) => {
     setSemester(e.target.value);
   };
 
-  const handleRegistrationStatusChange = (e, newValue) => {
-    setRegistrationStatus(newValue);
+  const handleEnrollStatusChange = (e) => {
+    setEnrollStatus(e.target.value);
+  };
+
+  const handleNext = () => {
+    let formattedBirth = birth;
+  
+    if (birth.length === 10) {
+      // "YYYY-MM-DD" 형식으로 입력된 경우
+      formattedBirth = `${birth}T00:00:00`;
+    } else if (birth.length === 8) {
+      // "YYYYMMDD" 형식을 "YYYY-MM-DDT00:00:00" 형식으로 변환
+      formattedBirth = `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6, 8)}T00:00:00`;
+    }
+  
+    const step2Data = {
+      sex,
+      birth: formattedBirth,
+      email,
+      major,
+      semester,
+      enrollStatus,
+    };
+  
+    onNext(step2Data);
+    console.log('step2Data', step2Data);
   };
 
   return (
     <>
       <form>
         <ToggleButtonGroup
-          value={gender}
+          value={sex}
           exclusive
-          onChange={handleGenderChange}
-          aria-label="gender"
+          onChange={handleSexChange}
+          aria-label="sex"
           sx={{ mb:3 }}
           fullWidth
         >
@@ -83,8 +107,8 @@ const Step2 = ({ onNext }) => {
             type="text"
             label="생년월일"
             placeholder="YYYY-MM-DD"
-            value={birthDate}
-            onChange={handleBirthDateChange}
+            value={birth}
+            onChange={handleBirthChange}
             fullWidth 
             sx={{ mb:3 }}
         />
@@ -126,25 +150,25 @@ const Step2 = ({ onNext }) => {
           </Select>
         </FormControl>
         <ToggleButtonGroup
-          value={registrationStatus}
+          value={enrollStatus}
           exclusive
-          onChange={handleRegistrationStatusChange}
-          aria-label="registration status"
+          onChange={handleEnrollStatusChange}
+          aria-label="enroll status"
           sx={{ mb:3 }}
           fullWidth
         >
           <ToggleButton value="enrolled" aria-label="enrolled" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>
             재학
           </ToggleButton>
-          <ToggleButton value="leaveOfAbsence" aria-label="leave of absence" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>
+          <ToggleButton value="absence" aria-label="leave of absence" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>
             휴학
           </ToggleButton>
-          <ToggleButton value="completion" aria-label="completion" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>
+          <ToggleButton value="certificated" aria-label="completion" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>
             수료
           </ToggleButton>
         </ToggleButtonGroup>
         <Box mt={2}>
-          <Button variant="standard" fullWidth onClick={onNext}
+          <Button variant="standard" fullWidth onClick={handleNext}
                 sx={{
                   backgroundColor: isDisabled ? 'transparent' : '#FFD302', 
                   '&:hover': {

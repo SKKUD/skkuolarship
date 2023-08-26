@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import MobileStepper from '@mui/material/MobileStepper';
 import Step1 from '../components/SignUp/Step1';
@@ -6,23 +6,71 @@ import Step2 from '../components/SignUp/Step2';
 import Step3 from '../components/SignUp/Step3';
 import logo from '../images/logo5.png';
 import character from '../images/character.png';
-
+import { useNavigate } from 'react-router-dom';
 
 const stepTitles = ['회원가입', '기본정보 입력', '추가정보 입력'];
 
 const SignUp = () => {
+    const navigate = useNavigate();
 
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = 3;
+    const [step1Data, setStep1Data] = useState({});
+    const [step2Data, setStep2Data] = useState({});
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const handleStep1Complete = (data) => {
+        setStep1Data(data);
+        setActiveStep(1);
+    };
+    
+    const handleStep2Complete = (data) => {
+        setStep2Data(data);
+        setActiveStep(2);
     };
 
-    const handleSignup = () => {
-        alert('회원가입 완료!');
-    };
+    const handleSignUp = async (mergedData) => {
+        const response = await fetch('/signUp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: mergedData.username,
+                password: mergedData.password,
+                email: mergedData.email,
+                sex: mergedData.sex,
+                birth: mergedData.birth,
+                major: mergedData.major,
+                semester: mergedData.semester,
+                enrollStatus: mergedData.enrollStatus,
+                gpa: mergedData.gpa,
+                lastSemGpa: mergedData.lastSemGpa,
+                incomeBracket: mergedData.incomeBracket,
+                residence: mergedData.residence,
+            }),
+        });
 
+        console.log('response:', response);
+        if(response.status === 200) {
+            navigate('/login');
+        } else {
+            alert('회원가입 실패');
+        }
+    };
+    
+    const handleNext = (data) => {
+        if (activeStep === 2) {
+            const mergedData = {
+                ...step1Data,
+                ...step2Data,
+                ...data,
+            };
+            console.log('mergedData:', mergedData);
+            handleSignUp(mergedData);
+        } else {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
+    };
 
     return (
         <>
@@ -56,9 +104,9 @@ const SignUp = () => {
                         {stepTitles[activeStep]} 
                     </Typography>
                 </div>
-                {activeStep === 0 && <Step1 onNext={handleNext} />}
-                {activeStep === 1 && <Step2 onNext={handleNext} />}
-                {activeStep === 2 && <Step3 onNext={handleSignup} />}
+                {activeStep === 0 && <Step1 onNext={handleStep1Complete} />}
+                {activeStep === 1 && <Step2 onNext={handleStep2Complete} />}
+                {activeStep === 2 && <Step3 onNext={handleNext} />}
             </Container>
         </>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Tab, Tabs } from '@mui/material';
 import Header from '../components/Header';
 import AllNotices from '../components/Notices/AllNotices';
@@ -8,15 +8,22 @@ import { Navigate } from 'react-router-dom';
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const [token, setToken] = useState('');
 
   const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
+      setActiveTab(newValue);
   };
 
-  if (!isLogin) {
-    return <Navigate to="/login" />;
-  }
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    setToken(accessToken);
+    alert(accessToken);
+  }, []);
 
+  if (!isLogin) {
+      return <Navigate to="/login" />;
+  } 
+  
   return (
     <div>
       <Header isLogin={isLogin}/>

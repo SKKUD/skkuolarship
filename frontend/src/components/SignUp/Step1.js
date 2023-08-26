@@ -40,6 +40,15 @@ const Step1 = ({ onNext }) => {
         // setAlertMessage('사용 가능한 아이디입니다!');
       }
     };
+
+    const handleNext = () => {
+      const step1Data = {
+          username,
+          password,
+      };
+      onNext(step1Data);
+      console.log('step1Data:', step1Data);
+    };
         
     return (
       <>
@@ -81,8 +90,7 @@ const Step1 = ({ onNext }) => {
                 variant="standard"
                 fullWidth
                 disabled={isDisabled}
-                // onClick={handleSignUp}
-                onClick={onNext}
+                onClick={handleNext}
                 sx={{
                   backgroundColor: isDisabled ? 'transparent' : '#FFD302', 
                   '&:hover': {

@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Button } from '@mui/material';
 import Sidebar from './Sidebar';
 import MenuIcon from '@mui/icons-material/Menu';
-import logo1 from '../images/logo1.png';
-import logo2 from '../images/logo2.png';
-import logo3 from '../images/logo3.png';
 import logo4 from '../images/logo4.png';
 import character from '../images/character.png';
 
