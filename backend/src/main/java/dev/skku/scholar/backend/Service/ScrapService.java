@@ -3,10 +3,9 @@ package dev.skku.scholar.backend.Service;
 import dev.skku.scholar.backend.domain.Scholarship;
 import dev.skku.scholar.backend.domain.ScholarshipScrap;
 import dev.skku.scholar.backend.domain.User;
-import dev.skku.scholar.backend.jwt.JwtTokenUtil;
 import dev.skku.scholar.backend.repository.ScholarshipRepository;
 import dev.skku.scholar.backend.repository.ScrapRepository;
-import dev.skku.scholar.backend.repository.UserRepo;
+import dev.skku.scholar.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ScrapService {
     private final ScrapRepository scrapRepository;
-    private final UserRepo userRepository;
+    private final UserRepository userRepository;
     private final ScholarshipRepository scholarshipRepository;
 
     public List<Scholarship> getScrapScholarships(String username) {

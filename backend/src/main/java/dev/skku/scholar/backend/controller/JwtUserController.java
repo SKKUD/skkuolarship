@@ -1,8 +1,6 @@
 package dev.skku.scholar.backend.controller;
 
 import dev.skku.scholar.backend.Service.UserService;
-import dev.skku.scholar.backend.domain.EEnrollment;
-import dev.skku.scholar.backend.domain.ESex;
 import dev.skku.scholar.backend.domain.User;
 import dev.skku.scholar.backend.dto.JoinRequest;
 import dev.skku.scholar.backend.dto.LoginRequest;
@@ -12,7 +10,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -106,16 +103,8 @@ public class JwtUserController {
         }
         return null;
     }
-    /*@GetMapping("/home")
-    public String userHome(Authentication auth) {
-        User loginUser = userService.getLoginUserByUsername(auth.getName());
-        return String.format("username : %s\n",
-                loginUser.getUsername());
-    }*/
-
     /*@PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
 
-        return ResponseEntity.ok("Logged out successfully");
     }*/
 }

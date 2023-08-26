@@ -5,10 +5,7 @@ import dev.skku.scholar.backend.domain.Scholarship;
 import dev.skku.scholar.backend.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map; // Map을 import 추가
 
 import static dev.skku.scholar.backend.controller.SecurityConfig.secretKey;
 
