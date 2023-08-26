@@ -4,7 +4,7 @@ import dev.skku.scholar.backend.domain.Scholarship;
 import dev.skku.scholar.backend.domain.ScholarshipScrap;
 import dev.skku.scholar.backend.domain.User;
 import dev.skku.scholar.backend.jwt.JwtTokenUtil;
-import dev.skku.scholar.backend.repository.ScholarshipRepo;
+import dev.skku.scholar.backend.repository.ScholarshipRepository;
 import dev.skku.scholar.backend.repository.ScrapRepository;
 import dev.skku.scholar.backend.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ScrapService {
     private final ScrapRepository scrapRepository;
     private final UserRepo userRepository;
-    private final ScholarshipRepo scholarshipRepository;
+    private final ScholarshipRepository scholarshipRepository;
 
     public List<Scholarship> getScrapScholarships(String username) {
 
