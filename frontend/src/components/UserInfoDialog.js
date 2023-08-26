@@ -51,7 +51,8 @@ const UserInfoDialog = ({ open, onClose, userInfo, setUserInfo }) => {
         <Dialog open={open} onClose={onClose}>
             <List sx={{ width: '330px', p: 2 }}>
                 <div>
-                <Typography variant="h6" sx={{fontWeight: 800, textAlign: 'center', p: 2}}>👻 <br/> {userInfo.username} 님</Typography>
+                <Typography variant="h4" sx={{fontWeight: 800, textAlign: 'center', pt: 3}}>👻 </Typography>
+                <Typography sx={{fontWeight: 800, textAlign: 'center', fontSize: '24px', pb: 1}}>{userInfo.username} 님</Typography>
                 {editMode ? (
                     <Container>
                         <ListItem >
