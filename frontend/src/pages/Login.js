@@ -35,14 +35,14 @@ const Login = ({setIsLogin}) => {
 
                 if(text === "로그인 아이디 또는 비밀번호가 틀렸습니다.") {
                     alert('로그인 실패');
-                    console.log('로그인 실패');
+                    console.log('로그인 실패1');
                 } else{
                     localStorage.setItem('accessToken', text);
                     setIsLogin(true);
                     navigate('/');
                 }
             } else {
-                console.log('로그인 실패');
+                console.log('로그인 실패2');
             }
         } catch (error) {
             console.error('로그인 오류:', error);
