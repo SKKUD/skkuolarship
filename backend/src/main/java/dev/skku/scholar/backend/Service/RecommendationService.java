@@ -4,6 +4,7 @@ import dev.skku.scholar.backend.domain.Scholarship;
 import dev.skku.scholar.backend.domain.ScholarshipTag;
 import dev.skku.scholar.backend.domain.Tag;
 import dev.skku.scholar.backend.domain.User;
+import dev.skku.scholar.backend.dto.ScholarshipDTO;
 import dev.skku.scholar.backend.repository.ScholarshipRepository;
 import dev.skku.scholar.backend.repository.ScholarshipTagRepository;
 import dev.skku.scholar.backend.repository.TagRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RecommendationService {
@@ -28,7 +30,9 @@ public class RecommendationService {
         this.scholarshipTagRepository = scholarshipTagRepository;
         this.scholarshipRepository = scholarshipRepository;
     }
-    public List<Scholarship> getRecommendedScholarships(String username) {
+
+
+    public List<ScholarshipDTO> getRecommendedScholarshipsWithKeywords(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new RuntimeException("User not found");
@@ -39,8 +43,53 @@ public class RecommendationService {
         recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnLastSemGpa(user.get()));
         recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnMajor(user.get()));
         recommendedScholarshipIds.addAll(getScholarshipIdsForTagBasedOnSemester(user.get()));
-        return scholarshipRepository.findByIdIn(recommendedScholarshipIds);
+
+        List<Scholarship> recommendedScholarships = scholarshipRepository.findByIdIn(recommendedScholarshipIds);
+
+        Map<Long, List<String>> scholarshipKeywordsMap = new HashMap<>();
+        for (Scholarship scholarship : recommendedScholarships) {
+            List<ScholarshipTag> tagIdsByScholarshipId = scholarshipTagRepository.findByScholarshipId(scholarship.getId());
+            List<String> keywordsList = tagIdsByScholarshipId.stream()
+                    .map(scholarshipTag -> scholarshipTag.getTag().getName())
+                    .collect(Collectors.toList());
+
+            scholarshipKeywordsMap.put(scholarship.getId(), keywordsList);
+        }
+
+        return mapScholarshipsToDTOList(recommendedScholarships, scholarshipKeywordsMap);
     }
+
+    private List<ScholarshipDTO> mapScholarshipsToDTOList(List<Scholarship> scholarships, Map<Long, List<String>> scholarshipKeywordsMap) {
+        List<ScholarshipDTO> dtos = new ArrayList<>();
+
+        for (Scholarship scholarship : scholarships) {
+            List<String> keywords = scholarshipKeywordsMap.get(scholarship.getId());
+            ScholarshipDTO dto = mapScholarshipToDTO(scholarship, keywords);
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
+    private ScholarshipDTO mapScholarshipToDTO(Scholarship scholarship, List<String> keywords) {
+        ScholarshipDTO dto = new ScholarshipDTO();
+        dto.setId(scholarship.getId());
+        dto.setTitle(scholarship.getTitle());
+        dto.setDepartment(scholarship.getDepartment());
+        dto.setViewCount(scholarship.getViewCount());
+        dto.setApplyStartAt(scholarship.getApplyStartAt());
+        dto.setApplyEndAt(scholarship.getApplyEndAt());
+        dto.setNumSelection(scholarship.getNumSelection());
+        dto.setBenefit(scholarship.getBenefit());
+        dto.setApplyMethod(scholarship.getApplyMethod());
+        dto.setTarget(scholarship.getTarget());
+        dto.setContact(scholarship.getContact());
+        dto.setOriginUrl(scholarship.getOriginUrl());
+        dto.setKeywords(keywords);
+        return dto;
+    }
+
+
 
     private Map<Long, Scholarship> getScholarshipInfoForTag(List<Long> scholarshipIds) {
         Map<Long, Scholarship> scholarshipInfoMap = new HashMap<>();

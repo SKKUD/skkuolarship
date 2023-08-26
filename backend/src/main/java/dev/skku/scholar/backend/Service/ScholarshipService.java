@@ -6,7 +6,7 @@ import dev.skku.scholar.backend.domain.Tag;
 import dev.skku.scholar.backend.repository.ScholarshipRepository;
 import dev.skku.scholar.backend.repository.ScholarshipTagRepository;
 import dev.skku.scholar.backend.repository.TagRepository;
-import dev.skku.scholar.backend.repository.UserRepo;
+import dev.skku.scholar.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

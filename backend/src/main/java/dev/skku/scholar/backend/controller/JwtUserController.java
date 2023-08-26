@@ -60,7 +60,7 @@ public class JwtUserController {
 
         // 로그인 아이디나 비밀번호가 틀린 경우 global error return
         if(user == null) {
-            return ResponseEntity.badRequest().body("로그인 아이디 또는 비밀번호가 틀렸습니다.");
+            return ResponseEntity.badRequest().body("Invalid username or password.");
         }
         // 로그인 성공 => Jwt Token 발급
         String secretKey = "my-secret-key-123123";
